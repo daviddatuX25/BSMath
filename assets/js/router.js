@@ -246,7 +246,7 @@ async function navigate(path) {
   main.classList.add('loading');
 
   // Await async loaders (dashboard, programs) and sync loaders (stub views)
-  const html = await route.loader();
+  const html = await route.loader(user);
   main.innerHTML = html;
   main.classList.remove('loading');
   highlightNav(path);
