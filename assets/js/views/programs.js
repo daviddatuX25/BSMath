@@ -9,7 +9,7 @@ import { modal } from '../ui/modal.js';
 let _programs = []; // local cache — refreshed on every load and after mutations
 
 export async function loadPrograms() {
-    const canvas = document.getElementById('main-canvas');
+    const canvas = document.getElementById('main-content');
     canvas.innerHTML = renderSkeleton();
     await refresh(canvas);
 }

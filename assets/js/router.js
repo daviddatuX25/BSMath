@@ -245,9 +245,11 @@ async function navigate(path) {
 
   main.classList.add('loading');
 
-  // Await async loaders (dashboard, programs) and sync loaders (stub views)
+  // Await async loaders (dashboard, programs) and sync loaders (stub views).
+  // View loaders that manage their own DOM (e.g. loadDashboard, loadPrograms)
+  // return undefined — only overwrite main-content when a string is returned.
   const html = await route.loader(user);
-  main.innerHTML = html;
+  if (html != null) main.innerHTML = html;
   main.classList.remove('loading');
   highlightNav(path);
 }
