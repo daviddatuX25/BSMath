@@ -5,7 +5,7 @@
 
 ---
 
-## Phase 1 — Foundation: DB, Auth, SPA Shell
+## Phase 1: Foundation — DB, Auth, SPA Shell
 
 **Goal:** A user can log in as any of the 3 roles and see a working shell (topbar + role-filtered sidebar + empty main canvas). Navigating between routes does NOT reload the page.
 
@@ -27,9 +27,16 @@
 
 **Why this phase first:** Everything else depends on the shell and auth. Getting this right makes phases 2–5 mechanical.
 
+**Plans:** 3 plans (complete)
+
+Plans:
+- [x] 01-01-PLAN.md — DB layer: schema.sql, seed.sql, connect.php
+- [x] 01-02-PLAN.md — Auth API: login.php, logout.php, me.php
+- [x] 01-03-PLAN.md — SPA shell: index.html, JS modules, view templates + demo checkpoint
+
 ---
 
-## Phase 2 — Dashboard + Programs Module
+## Phase 2: Dashboard + Programs Module
 
 **Goal:** Dashboard shows real stats from the DB. Manage Programs works end-to-end (list, add, edit, delete) for Admin and Program Head. Matches `mock.html` fidelity.
 
@@ -45,11 +52,18 @@
 
 **Demo checkpoint:** Dashboard shows "Total Programs: 4". Click Manage Programs → see seeded programs in editorial table. Add one → see toast, row appears, dashboard count updates. Edit, delete — all work without reload.
 
+**Plans:** 3 plans (1/3 complete)
+
+Plans:
+- [x] 02-01-PLAN.md — Backend API: dashboard stats/activities, programs CRUD, log_activity helper
+- [ ] 02-02-PLAN.md — UI helpers + dashboard view (toast, modal, dashboard.js)
+- [ ] 02-03-PLAN.md — Programs view (programs.js) + demo checkpoint
+
 **Why this phase second:** Programs is the most visible module (your mock). Nailing the UI patterns here (modal, table, toast) makes the remaining modules copy-paste.
 
 ---
 
-## Phase 3 — Content Modules: Announcements, Events, News
+## Phase 3: Content Modules — Announcements, Events, News
 
 **Goal:** Three more CRUD modules using the patterns from Phase 2. Announcements and Events have a `status` field (`pending` / `approved` / `rejected`) to prep for Phase 4.
 
@@ -64,7 +78,7 @@
 
 ---
 
-## Phase 4 — Gallery, Faculty, Users, + Approve Content
+## Phase 4: Gallery, Faculty, Users, + Approve Content
 
 **Goal:** Finish the remaining modules + Dean's approval workflow. Gallery supports file upload to `uploads/` folder. Users module lets Admin manage accounts (including role assignment).
 
@@ -82,7 +96,7 @@
 
 ---
 
-## Phase 5 — Polish: Search, Responsive, Visual QA
+## Phase 5: Polish — Search, Responsive, Visual QA
 
 **Goal:** Hit the "Excellent" rubric tier. Global search works. Layout survives mobile. Every pixel matches mock.
 
@@ -126,7 +140,3 @@ Strict sequential. No parallelization (user preference + simpler for solo work).
 | UX Smoothness (SPA, feedback) | Phase 1 (no reload) + Phase 2 (toasts) |
 | RBAC correctness | Phase 1 (guards) + Phase 3 (verify) |
 | Theme consistency | Phase 1 (palette) + Phase 5 (pass) |
-
-## Next Step
-
-`/gsd-plan-phase 1` to break Phase 1 into concrete plans and tasks.
