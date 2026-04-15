@@ -12,11 +12,12 @@ INSERT INTO `users` (`email`, `password`, `name`, `role`) VALUES
 
 -- --------------------------------------------------------
 
--- Sample Programs
+-- Sample Programs (4 programs required for dashboard "Total Programs: 4")
 INSERT INTO `programs` (`name`, `code`, `description`, `status`, `created_by`) VALUES
-('Bachelor of Science in Mathematics', 'BSMATH', 'Four-year undergraduate program in Mathematics', 'active', 1),
-('Master of Science in Mathematics', 'MSMATH', 'Two-year graduate program in Mathematics', 'active', 1),
-('Doctor of Philosophy in Mathematics', 'PHDMATH', 'Doctoral program in Mathematics', 'active', 1);
+('Bachelor of Science in Mathematics', 'BSMATH', 'Core mathematics program covering calculus, algebra, and analysis.', 'active', 1),
+('Applied Mathematics Track', 'APMATH', 'Focus on statistics, numerical methods, and mathematical modeling.', 'active', 1),
+('Mathematics Education Track', 'MEDUMATH', 'Prepares students for teaching mathematics at secondary level.', 'active', 1),
+('Pure Mathematics Track', 'PMATH', 'Advanced theoretical mathematics: topology, abstract algebra, real analysis.', 'active', 1);
 
 -- --------------------------------------------------------
 
@@ -60,8 +61,11 @@ INSERT INTO `faculty` (`name`, `email`, `position`, `department`, `specializatio
 
 -- Sample Activities (recent activities feed)
 INSERT INTO `activities` (`type`, `description`, `user_id`, `entity_type`, `entity_id`) VALUES
+('program', 'Created program: Bachelor of Science in Mathematics', 1, 'programs', 1),
+('program', 'Created program: Applied Mathematics Track', 1, 'programs', 2),
+('program', 'Created program: Mathematics Education Track', 1, 'programs', 3),
+('program', 'Created program: Pure Mathematics Track', 1, 'programs', 4),
 ('announcement', 'New announcement posted: Enrollment for AY 2026-2027 Now Open', 1, 'announcements', 1),
-('program', 'Program updated: Bachelor of Science in Mathematics', 1, 'programs', 1),
 ('event', 'New event created: Mathematics Workshop', 3, 'events', 2),
 ('faculty', 'New faculty added: Dr. Pedro Reyes', 1, 'faculty', 3),
 ('gallery', 'Gallery image uploaded: Department Team Photo 2026', 1, 'gallery', 1);
