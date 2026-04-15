@@ -245,12 +245,11 @@ async function navigate(path) {
 
   main.classList.add('loading');
 
-  // rAF lets the CSS opacity transition play before we overwrite innerHTML
-  requestAnimationFrame(() => {
-    main.innerHTML = route.loader();
-    main.classList.remove('loading');
-    highlightNav(path);
-  });
+  // Await async loaders (dashboard, programs) and sync loaders (stub views)
+  const html = await route.loader();
+  main.innerHTML = html;
+  main.classList.remove('loading');
+  highlightNav(path);
 }
 
 // ── Shell mounting ────────────────────────────────────────────────────────

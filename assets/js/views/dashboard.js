@@ -6,7 +6,7 @@ import { api }   from '../api.js';
 import { toast } from '../ui/toast.js';
 
 export async function loadDashboard(user) {
-    const canvas = document.getElementById('main-canvas');
+    const canvas = document.getElementById('main-content');
     canvas.innerHTML = renderSkeleton();
 
     // Fetch stats and activities in parallel
