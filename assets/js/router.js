@@ -112,7 +112,12 @@ const routes = {
   },
   '/programs': {
     roles:  ['admin', 'program_head'],
-    loader: () => stubView('Programs', 'account_tree', 'Manage academic programs and curricula.'),
+    loader: async (user) => {
+      await ensureShell();
+      highlightNav('/programs');
+      const { loadPrograms } = await import('./views/programs.js');
+      await loadPrograms(user);
+    },
   },
   '/announcements': {
     roles:  ['admin', 'dean', 'program_head'],
