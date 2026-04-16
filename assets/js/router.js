@@ -15,6 +15,7 @@
  */
 
 import { isLoggedIn, getUser, logout } from './auth.js';
+import { setActiveView } from './ui/search.js';
 
 // ── Nav definition (source of truth for RBAC sidebar) ────────────────────
 
@@ -115,8 +116,9 @@ const routes = {
     loader: async (user) => {
       await ensureShell();
       highlightNav('/programs');
-      const { loadPrograms } = await import('./views/programs.js');
+      const { loadPrograms, filterRows } = await import('./views/programs.js');
       await loadPrograms(user);
+      setActiveView({ name: 'programs', filterRows });
     },
   },
   '/announcements': {
@@ -124,8 +126,9 @@ const routes = {
     loader: async (user) => {
       await ensureShell();
       highlightNav('/announcements');
-      const { loadAnnouncements } = await import('./views/announcements.js');
+      const { loadAnnouncements, filterRows } = await import('./views/announcements.js');
       await loadAnnouncements(user);
+      setActiveView({ name: 'announcements', filterRows });
     },
   },
   '/events': {
@@ -133,8 +136,9 @@ const routes = {
     loader: async (user) => {
       await ensureShell();
       highlightNav('/events');
-      const { loadEvents } = await import('./views/events.js');
+      const { loadEvents, filterRows } = await import('./views/events.js');
       await loadEvents(user);
+      setActiveView({ name: 'events', filterRows });
     },
   },
   '/news': {
@@ -142,8 +146,9 @@ const routes = {
     loader: async (user) => {
       await ensureShell();
       highlightNav('/news');
-      const { loadNews } = await import('./views/news.js');
+      const { loadNews, filterRows } = await import('./views/news.js');
       await loadNews(user);
+      setActiveView({ name: 'news', filterRows });
     },
   },
   '/gallery': {
@@ -151,8 +156,9 @@ const routes = {
     loader: async (user) => {
       await ensureShell();
       highlightNav('/gallery');
-      const { loadGallery } = await import('./views/gallery.js');
+      const { loadGallery, filterRows } = await import('./views/gallery.js');
       await loadGallery(user);
+      setActiveView({ name: 'gallery', filterRows });
     },
   },
   '/faculty': {
@@ -160,8 +166,9 @@ const routes = {
     loader: async (user) => {
       await ensureShell();
       highlightNav('/faculty');
-      const { loadFaculty } = await import('./views/faculty.js');
+      const { loadFaculty, filterRows } = await import('./views/faculty.js');
       await loadFaculty(user);
+      setActiveView({ name: 'faculty', filterRows });
     },
   },
   '/users': {
@@ -169,8 +176,9 @@ const routes = {
     loader: async (user) => {
       await ensureShell();
       highlightNav('/users');
-      const { loadUsers } = await import('./views/users.js');
+      const { loadUsers, filterRows } = await import('./views/users.js');
       await loadUsers(user);
+      setActiveView({ name: 'users', filterRows });
     },
   },
   '/approvals': {
@@ -178,8 +186,9 @@ const routes = {
     loader: async (user) => {
       await ensureShell();
       highlightNav('/approvals');
-      const { loadApprovals } = await import('./views/approvals.js');
+      const { loadApprovals, filterRows } = await import('./views/approvals.js');
       await loadApprovals(user);
+      setActiveView({ name: 'approvals', filterRows });
     },
   },
   '/profile': {

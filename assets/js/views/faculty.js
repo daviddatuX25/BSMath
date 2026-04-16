@@ -226,3 +226,18 @@ function renderSkeleton() {
             </div>
         </div>`;
 }
+
+/**
+ * Filter table rows by search term.
+ * @param {string} term — lowercase search term
+ */
+export function filterRows(term) {
+    const rows = document.querySelectorAll('#main-content tr[data-id]');
+    if (!term) {
+        rows.forEach(r => r.style.display = '');
+        return;
+    }
+    rows.forEach(r => {
+        r.style.display = r.textContent.toLowerCase().includes(term) ? '' : 'none';
+    });
+}
