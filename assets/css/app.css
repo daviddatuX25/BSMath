@@ -129,9 +129,41 @@
   }
 }
 
-/* Stats card responsive grid — force 1-col on very small screens */
+/* ── Responsive refinements (below md: 768px) ─────────────────── */
+
+@media (max-width: 767px) {
+  #topbar-search {
+    font-size: 0.875rem;
+  }
+
+  #main-content .flex.flex-wrap.gap-3 {
+    flex-direction: column;
+  }
+
+  #main-content .bg-white.rounded-xl.shadow-sm.p-5 {
+    padding: 1rem;
+  }
+
+  #modal-overlay .bg-white,
+  [id^="modal-"] .bg-white {
+    max-width: 100%;
+    margin: 0 1rem;
+    border-radius: 1rem;
+  }
+}
+
+/* ── Responsive refinements (below sm: 480px) ──────────────────── */
+
 @media (max-width: 479px) {
   #main-content .grid.grid-cols-2 {
     grid-template-columns: 1fr;
+  }
+
+  #main-content .text-2xl {
+    font-size: 1.25rem;
+  }
+
+  #main-content table .hide-sm {
+    display: none;
   }
 }
