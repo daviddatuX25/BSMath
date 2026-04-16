@@ -100,3 +100,41 @@ function dismiss(toast) {
 // Expose on window so view modules can call showToast without importing app.js
 // (views are injected as raw HTML strings and run in the module's scope)
 window.showToast = showToast;
+
+// ── Mobile sidebar drawer ───────────────────────────────────────────────
+
+/** Toggle the mobile sidebar drawer. */
+function setupMobileMenu() {
+  const btn     = document.getElementById('hamburger-btn');
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+
+  if (!btn || !sidebar || !backdrop) return;
+
+  const open = () => {
+    sidebar.classList.add('sidebar-open');
+    backdrop.classList.add('sidebar-open');
+    btn.setAttribute('aria-expanded', 'true');
+  };
+  const close = () => {
+    sidebar.classList.remove('sidebar-open');
+    backdrop.classList.remove('sidebar-open');
+    btn.setAttribute('aria-expanded', 'false');
+  };
+
+  btn.addEventListener('click', () => {
+    const isOpen = sidebar.classList.contains('sidebar-open');
+    isOpen ? close() : open();
+  });
+
+  backdrop.addEventListener('click', close);
+
+  sidebar.querySelectorAll('.nav-item').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth < 768) close();
+    });
+  });
+}
+
+// Listen for shell-ready (dispatched by router after shell is mounted)
+window.addEventListener('shell-ready', setupMobileMenu);

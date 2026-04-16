@@ -324,6 +324,9 @@ async function ensureShell() {
     shellMounted = false;
     redirect('/login');
   });
+
+  // Notify app.js that the shell is ready (so it can set up mobile menu, etc.)
+  window.dispatchEvent(new CustomEvent('shell-ready'));
 }
 
 /**
