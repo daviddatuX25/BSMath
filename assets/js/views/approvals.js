@@ -4,13 +4,15 @@
 
 import { api }   from '../api.js';
 import { toast } from '../ui/toast.js';
+import { emptyState } from '../ui/empty-state.js';
+import { skeletonRows } from '../ui/skeleton.js';
 
 let _items = [];
 let _filter = ''; // '', 'announcements', 'events'
 
 export async function loadApprovals() {
     const canvas = document.getElementById('main-content');
-    canvas.innerHTML = renderSkeleton();
+    canvas.innerHTML = renderHeader() + `<table class="w-full text-sm"><tbody>${skeletonRows(5)}</tbody></table>`;
     await refresh(canvas);
 }
 
@@ -36,14 +38,12 @@ async function refresh(canvas) {
 
 // ── Rendering ──────────────────────────────────────────────────────────
 
-function renderPage(items) {
+function renderHeader() {
     const counts = { all: _items.length, announcements: 0, events: 0 };
-    // Recount from fresh data for tab badges
-    items.forEach(i => {
+    _items.forEach(i => {
         if (i.type === 'announcement') counts.announcements++;
         if (i.type === 'event') counts.events++;
     });
-
     return `
         <div class="p-6 space-y-4">
             <div class="flex items-center justify-between">
@@ -65,10 +65,18 @@ function renderPage(items) {
                 </button>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                ${items.length === 0 ? emptyState() : renderTable(items)}
-            </div>
-        </div>`;
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">`;
+}
+
+function renderFooter() {
+    return `</div></div>`;
+}
+
+function renderPage(items) {
+    if (items.length === 0) {
+        return renderHeader() + emptyState('verified', 'No pending approvals', 'All content has been reviewed.') + renderFooter();
+    }
+    return renderHeader() + renderTable(items) + renderFooter();
 }
 
 function renderTable(items) {
@@ -85,7 +93,7 @@ function renderTable(items) {
             </thead>
             <tbody>
                 ${items.map((item, i) => `
-                    <tr class="group border-b border-stone-100 hover:bg-stone-50 transition-colors
+                    <tr data-id="${item.id}" class="group border-b border-stone-100 hover:bg-stone-50 transition-colors
                         ${i === items.length - 1 ? 'border-b-0' : ''}">
                         <td class="px-5 py-3.5">${typeBadge(item.type)}</td>
                         <td class="px-5 py-3.5">
@@ -111,14 +119,6 @@ function renderTable(items) {
                     </tr>`).join('')}
             </tbody>
         </table>`;
-}
-
-function emptyState() {
-    return `
-        <div class="p-8 text-center">
-            <span class="material-symbols-outlined text-stone-300 text-[48px]">verified</span>
-            <p class="text-stone-400 text-sm mt-2">No pending items to review. Everything is up to date.</p>
-        </div>`;
 }
 
 function typeBadge(type) {

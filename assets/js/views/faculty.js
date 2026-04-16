@@ -4,12 +4,14 @@
 import { api }   from '../api.js';
 import { toast } from '../ui/toast.js';
 import { modal } from '../ui/modal.js';
+import { emptyState } from '../ui/empty-state.js';
+import { skeletonRows } from '../ui/skeleton.js';
 
 let _items = [];
 
 export async function loadFaculty() {
     const canvas = document.getElementById('main-content');
-    canvas.innerHTML = renderSkeleton();
+    canvas.innerHTML = renderHeader() + `<table class="w-full text-sm"><tbody>${skeletonRows(5)}</tbody></table>`;
     await refresh(canvas);
 }
 
@@ -32,7 +34,7 @@ async function refresh(canvas) {
 
 // ── Rendering ──────────────────────────────────────────────────────────
 
-function renderPage(items) {
+function renderHeader() {
     return `
         <div class="p-6 space-y-4">
             <div class="flex items-center justify-between">
@@ -43,10 +45,18 @@ function renderPage(items) {
                     Add Faculty
                 </button>
             </div>
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                ${items.length === 0 ? emptyState() : renderTable(items)}
-            </div>
-        </div>`;
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">`;
+}
+
+function renderFooter() {
+    return `</div></div>`;
+}
+
+function renderPage(items) {
+    if (items.length === 0) {
+        return renderHeader() + emptyState('school', 'No faculty members yet', 'Add a faculty member to the directory.') + renderFooter();
+    }
+    return renderHeader() + renderTable(items) + renderFooter();
 }
 
 function renderTable(items) {
@@ -63,7 +73,7 @@ function renderTable(items) {
             </thead>
             <tbody>
                 ${items.map((f, i) => `
-                    <tr class="group border-b border-stone-100 hover:bg-stone-50 transition-colors
+                    <tr data-id="${f.id}" class="group border-b border-stone-100 hover:bg-stone-50 transition-colors
                         ${i === items.length - 1 ? 'border-b-0' : ''}">
                         <td class="px-5 py-3.5">
                             <div class="flex items-center gap-3">
@@ -96,14 +106,6 @@ function renderTable(items) {
                     </tr>`).join('')}
             </tbody>
         </table>`;
-}
-
-function emptyState() {
-    return `
-        <div class="p-8 text-center">
-            <span class="material-symbols-outlined text-stone-300 text-[48px]">school</span>
-            <p class="text-stone-400 text-sm mt-2">No faculty members yet. Add one to get started.</p>
-        </div>`;
 }
 
 function statusBadge(status) {

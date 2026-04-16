@@ -5,17 +5,19 @@
 import { api }   from '../api.js';
 import { toast } from '../ui/toast.js';
 import { modal } from '../ui/modal.js';
+import { emptyState } from '../ui/empty-state.js';
+import { skeletonRows } from '../ui/skeleton.js';
 
 let _programs = []; // local cache — refreshed on every load and after mutations
 
 export async function loadPrograms() {
     const canvas = document.getElementById('main-content');
-    canvas.innerHTML = renderSkeleton();
+    canvas.innerHTML = renderHeader() + `<table class="w-full text-sm"><tbody>${skeletonRows(5)}</tbody></table>`;
     await refresh(canvas);
 }
 
 async function refresh(canvas) {
-    canvas = canvas || document.getElementById('main-canvas');
+    canvas = canvas || document.getElementById('main-content');
     const res = await api.get('programs/index.php');
 
     if (!res.success) {
@@ -31,11 +33,9 @@ async function refresh(canvas) {
     attachEvents(canvas);
 }
 
-function renderPage(programs) {
+function renderHeader() {
     return `
         <div class="p-6 space-y-4">
-
-            <!-- Page header -->
             <div class="flex items-center justify-between">
                 <h2 class="text-2xl font-serif font-semibold text-stone-900">Manage Programs</h2>
                 <button id="btn-add-program"
@@ -44,54 +44,54 @@ function renderPage(programs) {
                     Add Program
                 </button>
             </div>
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">`;
+}
 
-            <!-- Programs table -->
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                ${programs.length === 0
-                    ? `<div class="p-8 text-center">
-                        <span class="material-symbols-outlined text-stone-300 text-[48px]">school</span>
-                        <p class="text-stone-400 text-sm mt-2">No programs yet. Add one to get started.</p>
-                       </div>`
-                    : `<table class="w-full text-sm">
-                        <thead>
-                            <tr class="bg-stone-50 border-b border-stone-200">
-                                <th class="text-left px-5 py-3 text-xs text-stone-500 uppercase tracking-wide font-medium">Title</th>
-                                <th class="text-left px-5 py-3 text-xs text-stone-500 uppercase tracking-wide font-medium hidden md:table-cell">Description</th>
-                                <th class="text-left px-5 py-3 text-xs text-stone-500 uppercase tracking-wide font-medium hidden md:table-cell">Added By</th>
-                                <th class="px-5 py-3 w-24"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${programs.map((p, i) => `
-                                <tr class="group border-b border-stone-100 hover:bg-stone-50 transition-colors
-                                    ${i === programs.length - 1 ? 'border-b-0' : ''}">
-                                    <td class="px-5 py-3.5 font-medium text-stone-800">${p.name}</td>
-                                    <td class="px-5 py-3.5 text-stone-500 hidden md:table-cell max-w-xs truncate">
-                                        ${p.description || '<span class="text-stone-300">—</span>'}
-                                    </td>
-                                    <td class="px-5 py-3.5 text-stone-500 hidden md:table-cell">${p.created_by_name}</td>
-                                    <td class="px-5 py-3.5">
-                                        <div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button data-action="edit" data-id="${p.id}"
-                                                class="p-1.5 text-stone-400 hover:text-emerald-600 rounded-md hover:bg-emerald-50 transition-colors"
-                                                title="Edit">
-                                                <span class="material-symbols-outlined text-[18px]">edit</span>
-                                            </button>
-                                            <button data-action="delete" data-id="${p.id}"
-                                                class="p-1.5 text-stone-400 hover:text-red-600 rounded-md hover:bg-red-50 transition-colors"
-                                                title="Delete">
-                                                <span class="material-symbols-outlined text-[18px]">delete</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>`
-                            ).join('')}
-                        </tbody>
-                    </table>`
-                }
-            </div>
+function renderFooter() {
+    return `</div></div>`;
+}
 
-        </div>`;
+function renderPage(programs) {
+    if (programs.length === 0) {
+        return renderHeader() + emptyState('school', 'No programs yet', 'Create your first program to get started.') + renderFooter();
+    }
+    return renderHeader() + `
+        <table class="w-full text-sm">
+            <thead>
+                <tr class="bg-stone-50 border-b border-stone-200">
+                    <th class="text-left px-5 py-3 text-xs text-stone-500 uppercase tracking-wide font-medium">Title</th>
+                    <th class="text-left px-5 py-3 text-xs text-stone-500 uppercase tracking-wide font-medium hidden md:table-cell">Description</th>
+                    <th class="text-left px-5 py-3 text-xs text-stone-500 uppercase tracking-wide font-medium hidden md:table-cell">Added By</th>
+                    <th class="px-5 py-3 w-24"></th>
+                </tr>
+            </thead>
+            <tbody>
+                ${programs.map((p, i) => `
+                    <tr data-id="${p.id}" class="group border-b border-stone-100 hover:bg-stone-50 transition-colors
+                        ${i === programs.length - 1 ? 'border-b-0' : ''}">
+                        <td class="px-5 py-3.5 font-medium text-stone-800">${p.name}</td>
+                        <td class="px-5 py-3.5 text-stone-500 hidden md:table-cell max-w-xs truncate">
+                            ${p.description || '<span class="text-stone-300">—</span>'}
+                        </td>
+                        <td class="px-5 py-3.5 text-stone-500 hidden md:table-cell">${p.created_by_name}</td>
+                        <td class="px-5 py-3.5">
+                            <div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button data-action="edit" data-id="${p.id}"
+                                    class="p-1.5 text-stone-400 hover:text-emerald-600 rounded-md hover:bg-emerald-50 transition-colors"
+                                    title="Edit">
+                                    <span class="material-symbols-outlined text-[18px]">edit</span>
+                                </button>
+                                <button data-action="delete" data-id="${p.id}"
+                                    class="p-1.5 text-stone-400 hover:text-red-600 rounded-md hover:bg-red-50 transition-colors"
+                                    title="Delete">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`
+                ).join('')}
+            </tbody>
+        </table>` + renderFooter();
 }
 
 function attachEvents(canvas) {

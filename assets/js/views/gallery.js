@@ -5,12 +5,14 @@
 import { api }   from '../api.js';
 import { toast } from '../ui/toast.js';
 import { modal } from '../ui/modal.js';
+import { emptyState } from '../ui/empty-state.js';
+import { skeletonRows } from '../ui/skeleton.js';
 
 let _items = [];
 
 export async function loadGallery() {
     const canvas = document.getElementById('main-content');
-    canvas.innerHTML = renderSkeleton();
+    canvas.innerHTML = renderHeader() + `<table class="w-full text-sm"><tbody>${skeletonRows(5)}</tbody></table>`;
     await refresh(canvas);
 }
 
@@ -33,7 +35,7 @@ async function refresh(canvas) {
 
 // ── Rendering ──────────────────────────────────────────────────────────
 
-function renderPage(items) {
+function renderHeader() {
     return `
         <div class="p-6 space-y-4">
             <div class="flex items-center justify-between">
@@ -44,10 +46,18 @@ function renderPage(items) {
                     Upload Image
                 </button>
             </div>
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                ${items.length === 0 ? emptyState() : renderGrid(items)}
-            </div>
-        </div>`;
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">`;
+}
+
+function renderFooter() {
+    return `</div></div>`;
+}
+
+function renderPage(items) {
+    if (items.length === 0) {
+        return renderHeader() + emptyState('photo_library', 'No gallery images yet', 'Upload an image to get started.') + renderFooter();
+    }
+    return renderHeader() + renderGrid(items) + renderFooter();
 }
 
 // Gallery uses a grid layout (not table) since images are the main content
@@ -55,7 +65,7 @@ function renderGrid(items) {
     return `
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
             ${items.map(g => `
-                <div class="group relative rounded-lg overflow-hidden border border-stone-200 hover:shadow-md transition-shadow">
+                <div data-id="${g.id}" class="group relative rounded-lg overflow-hidden border border-stone-200 hover:shadow-md transition-shadow">
                     <div class="aspect-video bg-stone-100 overflow-hidden">
                         <img src="${escapeHtml(g.image_url)}" alt="${escapeHtml(g.title || '')}"
                             class="w-full h-full object-cover"
@@ -80,14 +90,6 @@ function renderGrid(items) {
                     </div>
                 </div>
             `).join('')}
-        </div>`;
-}
-
-function emptyState() {
-    return `
-        <div class="p-8 text-center">
-            <span class="material-symbols-outlined text-stone-300 text-[48px]">gallery_thumbnail</span>
-            <p class="text-stone-400 text-sm mt-2">No gallery images yet. Upload one to get started.</p>
         </div>`;
 }
 
@@ -274,7 +276,7 @@ function renderSkeleton() {
  * @param {string} term — lowercase search term
  */
 export function filterRows(term) {
-    const rows = document.querySelectorAll('#main-content tr[data-id]');
+    const rows = document.querySelectorAll('#main-content [data-id]');
     if (!term) {
         rows.forEach(r => r.style.display = '');
         return;
