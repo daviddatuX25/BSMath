@@ -58,13 +58,13 @@ export const NAV_ITEMS = [
     label: 'Gallery',
     icon:  'gallery_thumbnail',
     hash:  '/gallery',
-    roles: ['admin', 'dean', 'program_head'],
+    roles: ['admin', 'program_head'],
   },
   {
     label: 'Faculty',
     icon:  'school',
     hash:  '/faculty',
-    roles: ['admin', 'dean', 'program_head'],
+    roles: ['admin'],
   },
   {
     label: 'Users',
@@ -76,7 +76,7 @@ export const NAV_ITEMS = [
     label: 'Approvals',
     icon:  'verified',
     hash:  '/approvals',
-    roles: ['admin', 'dean'],
+    roles: ['dean'],
   },
   {
     label: 'Profile',
@@ -147,20 +147,40 @@ const routes = {
     },
   },
   '/gallery': {
-    roles:  ['admin', 'dean', 'program_head'],
-    loader: () => stubView('Gallery', 'gallery_thumbnail', 'Upload and organise photo galleries.'),
+    roles:  ['admin', 'program_head'],
+    loader: async (user) => {
+      await ensureShell();
+      highlightNav('/gallery');
+      const { loadGallery } = await import('./views/gallery.js');
+      await loadGallery(user);
+    },
   },
   '/faculty': {
-    roles:  ['admin', 'dean', 'program_head'],
-    loader: () => stubView('Faculty', 'school', 'Manage faculty profiles and information.'),
+    roles:  ['admin'],
+    loader: async (user) => {
+      await ensureShell();
+      highlightNav('/faculty');
+      const { loadFaculty } = await import('./views/faculty.js');
+      await loadFaculty(user);
+    },
   },
   '/users': {
     roles:  ['admin'],
-    loader: () => stubView('Users', 'group', 'Manage user accounts and roles.'),
+    loader: async (user) => {
+      await ensureShell();
+      highlightNav('/users');
+      const { loadUsers } = await import('./views/users.js');
+      await loadUsers(user);
+    },
   },
   '/approvals': {
-    roles:  ['admin', 'dean'],
-    loader: () => stubView('Approvals', 'verified', 'Review and approve pending content.'),
+    roles:  ['dean'],
+    loader: async (user) => {
+      await ensureShell();
+      highlightNav('/approvals');
+      const { loadApprovals } = await import('./views/approvals.js');
+      await loadApprovals(user);
+    },
   },
   '/profile': {
     roles:  ['admin', 'dean', 'program_head'],
