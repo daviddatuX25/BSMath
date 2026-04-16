@@ -21,11 +21,22 @@ INSERT INTO `programs` (`name`, `code`, `description`, `status`, `created_by`) V
 
 -- --------------------------------------------------------
 
--- Sample Announcements
-INSERT INTO `announcements` (`title`, `content`, `status`, `priority`, `author_id`, `approved_by`) VALUES
-('Enrollment for AY 2026-2027 Now Open', 'The department announces the opening of enrollment for the Academic Year 2026-2027. Please visit the registrar for details.', 'approved', 'high', 1, 2),
-('Mathematics Competition 2026', 'The annual mathematics competition will be held on May 15, 2026 at the Main Auditorium.', 'approved', 'normal', 1, 2),
-('New Faculty Joining This Semester', 'We welcome three new faculty members joining our department this semester.', 'pending', 'low', 3, NULL);
+-- Phase 3 seed — Announcements
+-- Two rows so the dashboard "Total Announcements" card is non-zero
+-- and Phase 4 approval workflow has pending items to work with.
+-- author_id = 1 (admin user) seeded in Phase 1.
+INSERT INTO announcements (title, content, status, priority, author_id) VALUES
+  ('Welcome to the new admin portal',
+   'This is the admin portal for the BS Mathematics department. Use the sidebar to navigate modules.',
+   'approved', 'normal', 1),
+  ('Midterm exam schedule posted',
+   'Midterm exams for all math sections begin next Monday. Check the Events tab for the full schedule.',
+   'pending',  'high',   1);
+
+-- Matching activity rows so the Recent Activities feed has content
+INSERT INTO activities (user_id, type, description, entity_type, entity_id) VALUES
+  (1, 'announcement', 'Created announcement: Welcome to the new admin portal', 'announcements', 1),
+  (1, 'announcement', 'Created announcement: Midterm exam schedule posted',   'announcements', 2);
 
 -- --------------------------------------------------------
 
