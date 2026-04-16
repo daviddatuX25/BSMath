@@ -31,6 +31,7 @@
       w-64
       bg-stone-50 dark:bg-stone-950
       border-r border-stone-100 dark:border-stone-900
+      transform -translate-x-full md:translate-x-0 transition-transform duration-200
     "
     aria-label="Main navigation"
   >
@@ -208,11 +209,17 @@
   </nav>
   <!-- ── end sidebar ───────────────────────────────────────────────── -->
 
+  <!-- Mobile sidebar backdrop -->
+  <div
+    id="sidebar-backdrop"
+    class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"
+    aria-hidden="true"
+  ></div>
 
   <!-- ═══════════════════════════════════════════════════════════════════
        MAIN COLUMN — everything to the right of the sidebar
   ═══════════════════════════════════════════════════════════════════════ -->
-  <div class="flex flex-col flex-1 ml-64">
+  <div class="flex flex-col flex-1 ml-0 md:ml-64">
 
     <!-- ── TOPBAR ────────────────────────────────────────────────────── -->
     <header
@@ -228,6 +235,15 @@
     >
       <!-- Global search -->
       <div class="flex items-center flex-1 max-w-xl">
+        <!-- Hamburger toggle (visible below md only) -->
+        <button
+          id="hamburger-btn"
+          class="md:hidden mr-3 p-2 rounded-lg text-stone-500 hover:text-on-surface hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          <span class="material-symbols-outlined text-[22px]">menu</span>
+        </button>
         <div class="relative w-full group">
           <span
             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-primary transition-colors text-[20px]"
