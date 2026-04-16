@@ -121,7 +121,12 @@ const routes = {
   },
   '/announcements': {
     roles:  ['admin', 'dean', 'program_head'],
-    loader: () => stubView('Announcements', 'campaign', 'Create and manage department announcements.'),
+    loader: async (user) => {
+      await ensureShell();
+      highlightNav('/announcements');
+      const { loadAnnouncements } = await import('./views/announcements.js');
+      await loadAnnouncements(user);
+    },
   },
   '/events': {
     roles:  ['admin', 'dean', 'program_head'],
