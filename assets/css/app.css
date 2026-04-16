@@ -1,0 +1,137 @@
+/*
+ * app.css — Tailwind overrides and global utilities
+ *
+ * Tailwind handles ~95% of styling via utility classes.
+ * This file handles the 5% that Tailwind can't: CSS variable-based font
+ * variation settings, keyframe animations, and a handful of semantic classes
+ * that would be too verbose to repeat on every element.
+ */
+
+/* ── Material Symbols variable-font tuning ───────────────────────────────── */
+
+/*
+ * WHY set via CSS? Material Symbols is an icon font with variable axes.
+ * Tailwind can't emit font-variation-settings as a utility, so we define
+ * it here for the base state and a .filled modifier for active states.
+ */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  /* Prevent icon characters from being selected as text */
+  user-select: none;
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ── Loading spinner (used in #app bootstrap state + auth guard) ─────────── */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.app-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* ── Navigation item states ──────────────────────────────────────────────── */
+
+/*
+ * These classes are toggled by router.js highlightNav() on every navigation.
+ * Keeping them here (rather than in JS strings) makes them easy to tweak
+ * without hunting through JavaScript.
+ */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 150ms, background-color 150ms;
+  text-decoration: none;
+}
+
+/* Inactive (default) state — matches mock.html non-active links */
+.nav-item--inactive {
+  color: #44574a;          /* stone-600 equivalent in the emerald palette */
+  background-color: transparent;
+  border-right: 4px solid transparent;
+}
+
+.nav-item--inactive:hover {
+  color: #006d36;          /* primary */
+  background-color: rgba(229, 231, 235, 0.6);  /* stone-200/60 */
+}
+
+/* Active state — matches mock.html active link (emerald left-border variant) */
+.nav-item--active {
+  color: #006d36;          /* primary */
+  font-weight: 700;
+  background-color: rgba(240, 253, 244, 0.5);  /* emerald-50/50 */
+  border-right: 4px solid #006d36;
+  border-radius: 0.5rem 0 0 0.5rem;  /* flat right edge against sidebar border */
+}
+
+/* ── Tonal surface shift (editorial card gradient from mock.html) ─────────── */
+
+.tonal-shift {
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(243, 244, 242, 0.5),
+    rgba(232, 232, 230, 0.5)
+  );
+}
+
+/* ── Main content transition on navigation ───────────────────────────────── */
+
+#main-content {
+  transition: opacity 100ms ease;
+}
+
+#main-content.loading {
+  opacity: 0;
+}
+
+/* ── Toast animations ────────────────────────────────────────────────────── */
+
+@keyframes slideIn {
+  from { transform: translateX(110%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(110%); opacity: 0; }
+}
+
+.toast-enter {
+  animation: slideIn 200ms ease forwards;
+}
+
+.toast-exit {
+  animation: slideOut 200ms ease forwards;
+}
+
+/* ── Responsive: sidebar drawer (below md breakpoint) ─────────────── */
+
+@media (max-width: 767px) {
+  /* Sidebar open state — toggled by JS adding .sidebar-open */
+  #sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  /* Backdrop visible when sidebar is open */
+  #sidebar-backdrop.sidebar-open {
+    display: block;
+  }
+}
+
+/* Stats card responsive grid — force 1-col on very small screens */
+@media (max-width: 479px) {
+  #main-content .grid.grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
