@@ -74,6 +74,19 @@ export const modal = {
                             placeholder="${f.placeholder || ''}">${f.value || ''}</textarea>
                     </div>`;
             }
+            if (f.type === 'select') {
+                const opts = (f.options || []).map(o =>
+                    `<option value="${o.value}" ${o.value === f.value ? 'selected' : ''}>${o.label}</option>`
+                ).join('');
+                return `
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-stone-700 mb-1">${f.label}</label>
+                        <select name="${f.name}" ${f.required ? 'required' : ''}
+                            class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            ${opts}
+                        </select>
+                    </div>`;
+            }
             return `
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-stone-700 mb-1">${f.label}</label>
