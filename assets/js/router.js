@@ -139,7 +139,12 @@ const routes = {
   },
   '/news': {
     roles:  ['admin'],
-    loader: () => stubView('News', 'newspaper', 'Publish news articles for the department.'),
+    loader: async (user) => {
+      await ensureShell();
+      highlightNav('/news');
+      const { loadNews } = await import('./views/news.js');
+      await loadNews(user);
+    },
   },
   '/gallery': {
     roles:  ['admin', 'dean', 'program_head'],
