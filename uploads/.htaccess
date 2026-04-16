@@ -1,0 +1,4 @@
+# Block PHP execution in the uploads directory
+# WHY: If an attacker uploads a .php file, Apache will not execute it.
+php_flag engine off
+SetHandler default-handler

@@ -80,3 +80,16 @@ INSERT INTO `activities` (`type`, `description`, `user_id`, `entity_type`, `enti
 ('event', 'New event created: Mathematics Workshop', 3, 'events', 2),
 ('faculty', 'New faculty added: Dr. Pedro Reyes', 1, 'faculty', 3),
 ('gallery', 'Gallery image uploaded: Department Team Photo 2026', 1, 'gallery', 1);
+
+-- Seed gallery images (Phase 4 plan — requires users to be seeded first so id=1 exists)
+INSERT INTO gallery (title, image_url, description, uploaded_by) VALUES
+ ('Department Seminar 2026', 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600', 'Annual department seminar group photo.', 1),
+ ('Math Competition Awards', 'https://images.unsplash.com/photo-1524178232363-01fb6b9b5a15?w=600', 'Students receiving their competition awards.', 1),
+ ('Faculty Workshop', 'https://images.unsplash.com/photo-1577896851231-70ef188817e1?w=600', 'Professional development workshop for faculty.', 1);
+
+-- Seed faculty members (Phase 4 plan — requires users to be seeded first so id=1 exists)
+INSERT INTO faculty (name, email, position, department, specialization, image_url, status, created_by) VALUES
+ ('Dr. Maria Santos', 'maria.santos@bsmath.test', 'Professor', 'Mathematics', 'Abstract Algebra, Number Theory', 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200', 'active', 1),
+ ('Dr. Juan Cruz', 'juan.cruz@bsmath.test', 'Associate Professor', 'Applied Mathematics', 'Numerical Methods, Optimization', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200', 'active', 1),
+ ('Dr. Ana Reyes', 'ana.reyes@bsmath.test', 'Assistant Professor', 'Mathematics Education', 'Curriculum Development, Statistics', 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200', 'active', 1),
+ ('Prof. Carlos Lim', 'carlos.lim@bsmath.test', 'Instructor', 'Pure Mathematics', 'Real Analysis, Topology', NULL, 'active', 1);
