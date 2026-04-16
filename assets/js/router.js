@@ -129,8 +129,13 @@ const routes = {
     },
   },
   '/events': {
-    roles:  ['admin', 'dean', 'program_head'],
-    loader: () => stubView('Events', 'event', 'Schedule and track department events.'),
+    roles:  ['admin', 'dean'],
+    loader: async (user) => {
+      await ensureShell();
+      highlightNav('/events');
+      const { loadEvents } = await import('./views/events.js');
+      await loadEvents(user);
+    },
   },
   '/news': {
     roles:  ['admin'],
