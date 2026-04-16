@@ -1,0 +1,309 @@
+<!--
+  views/shell.html — authenticated app layout fragment
+  Injected into #app once by router.js ensureShell().
+  Contains the sidebar, topbar, and the #main-content slot where views render.
+
+  RBAC filtering: each nav <a> carries data-roles="role1,role2,...".
+  router.js applyRbacToNav() hides items the current user's role cannot access.
+
+  IDs expected by router.js:
+    #btn-logout          — logout button in the sidebar footer
+    #sidebar-user-name   — user's display name
+    #sidebar-user-role   — user's role label
+    .nav-item            — all sidebar nav links (for highlightNav)
+    [data-roles]         — nav links filtered by RBAC
+    #main-content        — view slot
+-->
+
+<!-- ── Layout wrapper ───────────────────────────────────────────────────── -->
+<div class="flex min-h-screen bg-surface">
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SIDEBAR — fixed left panel
+       Width: w-64 (256px). Collapses to off-canvas at md breakpoint
+       via a future responsive enhancement (phase 01-05).
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <nav
+    id="sidebar"
+    class="
+      fixed left-0 top-0 h-screen z-50
+      flex flex-col py-6 px-4
+      w-64
+      bg-stone-50 dark:bg-stone-950
+      border-r border-stone-100 dark:border-stone-900
+    "
+    aria-label="Main navigation"
+  >
+
+    <!-- Brand logo + title -->
+    <div class="flex items-center gap-3 mb-10 px-2">
+      <div class="w-10 h-10 bg-emerald-800 flex items-center justify-center rounded-lg shadow shadow-emerald-900/20 shrink-0">
+        <span class="text-white text-lg font-headline font-bold select-none">Σ</span>
+      </div>
+      <div class="min-w-0">
+        <h1 class="text-xl font-headline font-bold text-emerald-800 dark:text-emerald-300 tracking-tight leading-none truncate">
+          BS Mathematics
+        </h1>
+        <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mt-1">
+          Admin Portal
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Nav items ────────────────────────────────────────────────── -->
+    <!--
+      All roles' items are listed here with data-roles attributes.
+      router.js hides items not permitted for the current user's role.
+      Default classes: nav-item nav-item--inactive (overridden on active route)
+    -->
+    <div class="flex flex-col gap-0.5 flex-1 overflow-y-auto" role="list">
+
+      <a
+        href="#/dashboard"
+        class="nav-item nav-item--inactive"
+        data-roles="admin,dean,program_head"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a
+        href="#/programs"
+        class="nav-item nav-item--inactive"
+        data-roles="admin,program_head"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">account_tree</span>
+        <span>Programs</span>
+      </a>
+
+      <a
+        href="#/announcements"
+        class="nav-item nav-item--inactive"
+        data-roles="admin,dean,program_head"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">campaign</span>
+        <span>Announcements</span>
+      </a>
+
+      <a
+        href="#/events"
+        class="nav-item nav-item--inactive"
+        data-roles="admin,dean,program_head"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">event</span>
+        <span>Events</span>
+      </a>
+
+      <a
+        href="#/news"
+        class="nav-item nav-item--inactive"
+        data-roles="admin"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">newspaper</span>
+        <span>News</span>
+      </a>
+
+      <a
+        href="#/gallery"
+        class="nav-item nav-item--inactive"
+        data-roles="admin,program_head"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">gallery_thumbnail</span>
+        <span>Gallery</span>
+      </a>
+
+      <a
+        href="#/faculty"
+        class="nav-item nav-item--inactive"
+        data-roles="admin"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">school</span>
+        <span>Faculty</span>
+      </a>
+
+      <a
+        href="#/users"
+        class="nav-item nav-item--inactive"
+        data-roles="admin"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">group</span>
+        <span>Users</span>
+      </a>
+
+      <a
+        href="#/approvals"
+        class="nav-item nav-item--inactive"
+        data-roles="dean"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">verified</span>
+        <span>Approvals</span>
+      </a>
+
+      <a
+        href="#/profile"
+        class="nav-item nav-item--inactive"
+        data-roles="admin,dean,program_head"
+        role="listitem"
+      >
+        <span class="material-symbols-outlined text-[22px] shrink-0">person</span>
+        <span>Profile</span>
+      </a>
+
+    </div>
+    <!-- ── end nav items ──────────────────────────────────────────── -->
+
+    <!-- ── Sidebar footer: user info + logout ───────────────────── -->
+    <div class="mt-auto pt-5 border-t border-stone-200 dark:border-stone-800">
+      <div class="flex items-center gap-3 px-2">
+        <!-- Avatar placeholder (initials) -->
+        <div
+          class="w-9 h-9 rounded-full bg-emerald-700 flex items-center justify-center shrink-0"
+          aria-hidden="true"
+        >
+          <span class="material-symbols-outlined text-white text-[20px]">person</span>
+        </div>
+
+        <!-- Name + role -->
+        <div class="flex-1 min-w-0">
+          <p
+            id="sidebar-user-name"
+            class="text-sm font-bold text-on-surface truncate"
+          >
+            &mdash;
+          </p>
+          <p
+            id="sidebar-user-role"
+            class="text-xs text-stone-400 truncate"
+          >
+            &mdash;
+          </p>
+        </div>
+
+        <!-- Logout button -->
+        <button
+          id="btn-logout"
+          class="
+            p-1.5 text-stone-400
+            hover:text-secondary hover:bg-stone-100 dark:hover:bg-stone-800
+            rounded-lg transition-colors
+          "
+          title="Sign out"
+          aria-label="Sign out"
+        >
+          <span class="material-symbols-outlined text-[20px]">logout</span>
+        </button>
+      </div>
+    </div>
+    <!-- ── end sidebar footer ────────────────────────────────────── -->
+
+  </nav>
+  <!-- ── end sidebar ───────────────────────────────────────────────── -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       MAIN COLUMN — everything to the right of the sidebar
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="flex flex-col flex-1 ml-64">
+
+    <!-- ── TOPBAR ────────────────────────────────────────────────────── -->
+    <header
+      class="
+        sticky top-0 z-40
+        flex items-center justify-between
+        px-8 h-16
+        bg-white/80 dark:bg-stone-950/80
+        backdrop-blur-xl
+        border-b border-stone-100 dark:border-stone-900
+        shadow-sm dark:shadow-none
+      "
+    >
+      <!-- Global search -->
+      <div class="flex items-center flex-1 max-w-xl">
+        <div class="relative w-full group">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-primary transition-colors text-[20px]"
+            aria-hidden="true"
+          >search</span>
+          <input
+            id="topbar-search"
+            type="search"
+            placeholder="Search programs, faculty, announcements…"
+            class="
+              w-full bg-surface-container-low border-none rounded-lg
+              pl-10 pr-4 py-2
+              text-sm text-on-surface placeholder:text-stone-400
+              focus:outline-none focus:ring-2 focus:ring-emerald-500/20
+              transition-all
+            "
+            aria-label="Global search"
+          />
+        </div>
+      </div>
+
+      <!-- Topbar actions -->
+      <div class="flex items-center gap-2 ml-6">
+
+        <!-- Notifications -->
+        <button
+          class="
+            w-10 h-10 flex items-center justify-center
+            text-stone-500 hover:text-on-surface
+            hover:bg-stone-100 dark:hover:bg-stone-800
+            rounded-full transition-colors
+          "
+          aria-label="Notifications"
+          title="Notifications"
+        >
+          <span class="material-symbols-outlined text-[22px]">notifications</span>
+        </button>
+
+        <!-- Profile -->
+        <button
+          id="topbar-profile"
+          class="
+            w-10 h-10 flex items-center justify-center
+            text-stone-500 hover:text-on-surface
+            hover:bg-stone-100 dark:hover:bg-stone-800
+            rounded-full transition-colors
+          "
+          aria-label="My profile"
+          title="My profile"
+          onclick="window.location.hash='#/profile'"
+        >
+          <span class="material-symbols-outlined text-[22px]">account_circle</span>
+        </button>
+
+      </div>
+    </header>
+    <!-- ── end topbar ─────────────────────────────────────────────── -->
+
+    <!-- ── MAIN CONTENT SLOT ─────────────────────────────────────── -->
+    <!--
+      router.js swaps innerHTML on every navigation.
+      The .loading class (opacity: 0) is applied before the swap and removed
+      on the next rAF tick so the transition plays smoothly.
+    -->
+    <main
+      id="main-content"
+      class="flex-1 bg-surface"
+      aria-live="polite"
+      aria-label="Page content"
+    >
+      <!-- Router injects view HTML here -->
+    </main>
+    <!-- ── end main content slot ─────────────────────────────────── -->
+
+  </div>
+  <!-- ── end main column ───────────────────────────────────────────── -->
+
+</div>
+<!-- ── end layout wrapper ─────────────────────────────────────────── -->
