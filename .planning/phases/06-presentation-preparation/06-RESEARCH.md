@@ -686,22 +686,13 @@ Documented in the API Endpoint Map section above.
 
 **If this table is empty:** All claims in this research were verified or cited -- no user confirmation needed.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should RUBRIC_DEFENSE.md include the known gaps or only defenses?**
-   - What we know: Phase 7 fixes the Events nav bug and header format. The rubric defense should address every rubric item.
-   - What's unclear: Whether to proactively flag the gaps (honest) or only defend what works (confident).
-   - Recommendation: Include gaps with a "Phase 7 will address" note. An honest defense is more credible than a perfect one.
+1. **Should RUBRIC_DEFENSE.md include the known gaps or only defenses?** — RESOLVED: Include gaps with YES* status and "Phase 7 will address" note. Plans use YES* with Notes column for gaps.
 
-2. **How much code excerpt to include in RUBRIC_DEFENSE.md?**
-   - What we know: D-01 says table format. Too much code makes the table unreadable.
-   - What's unclear: Whether to include 2-3 line code snippets or just file:function references.
-   - Recommendation: File:function references as primary. Short code snippets (3-5 lines max) only for the most critical evidence points (like the RBAC guard pattern).
+2. **How much code excerpt to include in RUBRIC_DEFENSE.md?** — RESOLVED: File:function references as primary (per D-01 table format). No inline code snippets — table format keeps entries scannable for live Q&A.
 
-3. **Should PRESENTATION_GUIDE.md reference RUBRIC_DEFENSE.md or be self-contained?**
-   - What we know: Claude's discretion per CONTEXT.md.
-   - What's unclear: Cross-referencing reduces duplication but requires readers to switch files.
-   - Recommendation: Make PRESENTATION_GUIDE self-contained for the walkthrough. Add a final "For rubric point-by-point defense, see RUBRIC_DEFENSE.md" link. Don't duplicate the defense table.
+3. **Should PRESENTATION_GUIDE.md reference RUBRIC_DEFENSE.md or be self-contained?** — RESOLVED: Self-contained walkthrough with final cross-link to RUBRIC_DEFENSE.md. No duplication of defense table.
 
 ## Environment Availability
 
