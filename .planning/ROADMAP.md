@@ -1,6 +1,6 @@
 # Roadmap — BS Mathematics Admin SPA (v1.0)
 
-**Granularity:** Coarse (5 phases)
+**Granularity:** Coarse (7 phases)
 **Style:** Junior-friendly — each phase produces something you can open in a browser and show off.
 
 ---
@@ -112,6 +112,42 @@ Plans:
 
 **Why this phase last:** Polish is easier when features are stable. Doing it last also means we only touch CSS/UX, not logic.
 
+### Phase 6: Presentation Preparation
+
+**Goal:** Create a junior-friendly technical guide documenting how the SPA framework and PHP backend align, so the team can confidently present and defend the project against the guide.md rubric.
+
+**Deliverables:**
+- `docs/PRESENTATION_GUIDE.md` — comprehensive junior-friendly walkthrough covering:
+  - SPA architecture: hash-based routing, module loading, view lifecycle
+  - PHP backend alignment: how each API endpoint maps to frontend actions
+  - RBAC deep-dive: role guards in router.js vs server-side enforcement in each PHP endpoint
+  - Data flow diagrams: login → session → API call → render cycle
+  - Guide.md compliance checklist: every rubric item mapped to code locations
+- `docs/RUBRIC_DEFENSE.md` — point-by-point defense against each guide.md requirement with code references
+
+**Demo checkpoint:** Any team member can open PRESENTATION_GUIDE.md and explain how the SPA works, where RBAC is enforced, and how each guide.md requirement is met — without reading source code.
+
+**Depends on:** Phase 5
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 6 to break down)
+
+### Phase 7: Finishing Touches
+
+**Goal:** Fix the 3 issues identified by gap analysis against guide.md, ensuring full rubric compliance before presentation.
+
+**Deliverables:**
+- RBAC fix: remove `program_head` from Events nav access (guide.md specifies Programs, Gallery, Announcements only)
+- Dashboard header fix: change "Welcome, [name]" to "Welcome [Role] Panel" format (e.g., "Welcome Admin Panel", "Welcome Dean")
+- Source code constraint review: document that Tailwind CDN, Material Symbols, and Google Fonts are external resources added beyond the ws4.2 source code, and ensure this aligns with instructor expectations
+
+**Demo checkpoint:** Log in as Program Head → sidebar shows only Dashboard, Programs, Announcements, Gallery. Dashboard says "Welcome Program Head Panel". Source code usage is documented.
+
+**Depends on:** Phase 6
+
+Plans:
+- [x] 07-01-PLAN.md -- Finishing touches: RBAC fix, dashboard header fix, external resources documentation
+
 ---
 
 ## Phase Dependency Graph
@@ -126,6 +162,10 @@ Phase 3 (announcements, events, news — repeats patterns)
 Phase 4 (gallery, faculty, users, approvals — harder modules)
    ↓
 Phase 5 (polish, search, responsive)
+   ↓
+Phase 6 (presentation preparation — docs + defense guide)
+   ↓
+Phase 7 (finishing touches — RBAC fix, header fix, compliance)
 ```
 
 Strict sequential. No parallelization (user preference + simpler for solo work).
@@ -138,5 +178,6 @@ Strict sequential. No parallelization (user preference + simpler for solo work).
 | Visual Hierarchy | Phase 2 (mock fidelity) + Phase 5 |
 | Responsiveness | Phase 5 |
 | UX Smoothness (SPA, feedback) | Phase 1 (no reload) + Phase 2 (toasts) |
-| RBAC correctness | Phase 1 (guards) + Phase 3 (verify) |
+| RBAC correctness | Phase 1 (guards) + Phase 3 (verify) + **Phase 7 (fix program_head)** |
 | Theme consistency | Phase 1 (palette) + Phase 5 (pass) |
+| Presentation defense | Phase 6 (guide + rubric defense) |
