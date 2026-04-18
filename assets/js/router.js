@@ -47,7 +47,7 @@ export const NAV_ITEMS = [
     label: 'Events',
     icon:  'event',
     hash:  '/events',
-    roles: ['admin', 'dean', 'program_head'],
+    roles: ['admin', 'dean'],
   },
   {
     label: 'News',

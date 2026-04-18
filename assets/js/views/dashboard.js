@@ -30,19 +30,16 @@ export async function loadDashboard(user) {
             <!-- Welcome header -->
             <div>
                 <h2 class="text-2xl font-serif font-semibold text-stone-900">
-                    Welcome, ${user.name}
+                    Welcome ${formatRole(user?.role ?? 'guest')} Panel
                 </h2>
-                <p class="text-stone-500 text-sm mt-0.5 capitalize">
-                    ${user.role.replace('_', ' ')}
-                </p>
             </div>
 
             <!-- Stats cards -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                ${renderStatCard('Total Programs',      stats.programs,      'school',        '#/programs')}
-                ${renderStatCard('Total Announcements', stats.announcements, 'campaign',      '#/announcements')}
-                ${renderStatCard('Total Events',        stats.events,        'event',         '#/events')}
-                ${renderStatCard('Total Users',         stats.users,         'manage_accounts','#/users')}
+                ${renderStatCard('Total Programs',      stats.programs      ?? 0, 'school',        '#/programs')}
+                ${renderStatCard('Total Announcements', stats.announcements ?? 0, 'campaign',      '#/announcements')}
+                ${renderStatCard('Total Events',        stats.events        ?? 0, 'event',         '#/events')}
+                ${renderStatCard('Total Users',         stats.users         ?? 0, 'manage_accounts','#/users')}
             </div>
 
             <!-- Quick Actions (role-filtered) -->
