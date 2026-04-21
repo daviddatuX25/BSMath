@@ -78,7 +78,7 @@ function renderTable(items) {
                         <td class="px-5 py-3.5">
                             <div class="flex items-center gap-3">
                                 ${f.image_url
-                                    ? `<img src="${escapeHtml(f.image_url)}" class="w-8 h-8 rounded-full object-cover" onerror="this.style.display='none'">`
+                                    ? `<img src="${escapeHtml(f.image_url)}" class="w-8 h-8 rounded-full object-cover" onerror="this.onerror=null;this.outerHTML='<div class=\\'w-8 h-8 rounded-full bg-stone-200 flex items-center justify-center text-stone-400 text-xs font-medium\\'>${escapeHtml(f.name.charAt(0))}</div>'">`
                                     : `<div class="w-8 h-8 rounded-full bg-stone-200 flex items-center justify-center text-stone-400 text-xs font-medium">${escapeHtml(f.name.charAt(0))}</div>`}
                                 <div>
                                     <div class="font-medium text-stone-800">${escapeHtml(f.name)}</div>

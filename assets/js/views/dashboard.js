@@ -118,6 +118,11 @@ function renderSkeleton() {
         </div>`;
 }
 
+function formatRole(role) {
+    const map = { admin: 'Admin', dean: 'Dean', program_head: 'Program Head', faculty: 'Faculty', guest: 'Guest' };
+    return map[role] ?? role;
+}
+
 function formatDate(dateStr) {
     const d = new Date(dateStr);
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });

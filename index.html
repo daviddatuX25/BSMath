@@ -34,7 +34,7 @@
     // defer + DOMContentLoaded ensures this runs AFTER the CDN sets window.tailwind
     window.addEventListener('DOMContentLoaded', function () {
       if (typeof tailwind === 'undefined') {
-        console.warn('[app] Tailwind CDN failed to load — styling may be degraded. Check network.');
+        console.warn('[app] Tailwind CDN failed to load - styling may be degraded. Check network.');
         return;
       }
       tailwind.config = {
@@ -42,7 +42,7 @@
       theme: {
         extend: {
           colors: {
-            /* ── Primary (emerald green) ──────────────────── */
+            /* Primary (emerald green) */
             'primary':                   '#006d36',
             'on-primary':                '#ffffff',
             'primary-container':         '#50c878',
@@ -53,7 +53,7 @@
             'on-primary-fixed-variant':  '#005227',
             'inverse-primary':           '#66dd8b',
             'surface-tint':              '#006d36',
-            /* ── Secondary (red accent) ───────────────────── */
+            /* Secondary (red accent) */
             'secondary':                 '#b7131a',
             'on-secondary':              '#ffffff',
             'secondary-container':       '#db322f',
@@ -62,7 +62,7 @@
             'secondary-fixed-dim':       '#ffb4ac',
             'on-secondary-fixed':        '#410002',
             'on-secondary-fixed-variant':'#93000d',
-            /* ── Tertiary ─────────────────────────────────── */
+            /* Tertiary */
             'tertiary':                  '#99443a',
             'on-tertiary':               '#ffffff',
             'tertiary-container':        '#ff9587',
@@ -71,12 +71,12 @@
             'tertiary-fixed-dim':        '#ffb4a9',
             'on-tertiary-fixed':         '#3f0302',
             'on-tertiary-fixed-variant': '#7b2e25',
-            /* ── Error ────────────────────────────────────── */
+            /* Error */
             'error':                     '#ba1a1a',
             'on-error':                  '#ffffff',
             'error-container':           '#ffdad6',
             'on-error-container':        '#93000a',
-            /* ── Neutral surfaces ─────────────────────────── */
+            /* Neutral surfaces */
             'background':                '#f9f9f8',
             'on-background':             '#1a1c1b',
             'surface':                   '#f9f9f8',
@@ -92,7 +92,7 @@
             'surface-bright':            '#f9f9f8',
             'inverse-surface':           '#2f3130',
             'inverse-on-surface':        '#f0f1ef',
-            /* ── Outline ──────────────────────────────────── */
+            /* Outline */
             'outline':                   '#6e7a6e',
             'outline-variant':           '#bdcabc',
           },
@@ -108,31 +108,42 @@
             label:    ['Work Sans', 'sans-serif'],
           },
         },
-      };
-    });
+      },
+    };
+  });
   </script>
 </head>
 
 <body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
 
   <!--
-    #app — single mount point.
+    #app - single mount point.
     Router replaces innerHTML with either views/login.html or views/shell.html.
   -->
   <div id="app">
-    <!-- Bootstrap loading state — replaced by router on first navigation -->
+    <!-- Bootstrap loading state - replaced by router on first navigation -->
     <div class="flex items-center justify-center min-h-screen">
       <span class="material-symbols-outlined text-emerald-600 text-5xl app-spinner">autorenew</span>
     </div>
   </div>
 
   <!--
-    #toast-container — always present, lives above all content.
+    #toast-container - always present, lives above all content.
     Toasts are appended here by showToast() in app.js.
   -->
   <div id="toast-container" class="fixed top-4 right-4 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- Module entry point — deferred automatically by type="module" -->
+  <!-- Catch-all top-level errors for debugging -->
+  <script>
+    window.addEventListener('error', function(e) {
+      console.error('[top] Error:', e.message, 'at', e.filename, ':'+e.lineno);
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      console.error('[top] Rejection:', e.reason);
+    });
+  </script>
+
+  <!-- Module entry point - deferred automatically by type="module" -->
   <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

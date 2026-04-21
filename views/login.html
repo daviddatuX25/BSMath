@@ -1,0 +1,139 @@
+<!--
+  views/login.html — login page template fragment
+  Injected into #app by router.js mountLogin().
+  No <html>/<head>/<body> — this is a pure content fragment.
+
+  IDs expected by router.js:
+    #login-form     — form element
+    #login-email    — email input
+    #login-password — password input
+    #login-error    — error message paragraph
+    #login-submit   — submit button
+    #login-spinner  — inline spinner inside the button
+-->
+
+<div class="min-h-screen bg-surface flex items-center justify-center px-4">
+  <div class="w-full max-w-md">
+
+    <!-- Brand header -->
+    <div class="flex items-center gap-3 mb-10 justify-center">
+      <div class="w-12 h-12 bg-emerald-800 flex items-center justify-center rounded-xl shadow-lg shadow-emerald-900/20">
+        <!-- Greek sigma — mirrors the logo in mock.html -->
+        <span class="text-white text-2xl font-headline font-bold select-none">Σ</span>
+      </div>
+      <div>
+        <h1 class="text-2xl font-headline font-bold text-emerald-800 tracking-tight leading-none">
+          BS Mathematics
+        </h1>
+        <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mt-1">
+          Admin Portal
+        </p>
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow-[0_12px_32px_-4px_rgba(26,28,27,0.08)] border border-outline-variant/10 p-8">
+
+      <div class="mb-7">
+        <h2 class="text-2xl font-headline font-bold text-on-surface tracking-tight">
+          Sign in
+        </h2>
+        <p class="text-stone-400 text-sm mt-1">
+          Use your department account credentials.
+        </p>
+      </div>
+
+      <!-- Login form -->
+      <form id="login-form" novalidate>
+
+        <!-- Email field -->
+        <div class="mb-5">
+          <label
+            for="login-email"
+            class="block text-xs font-bold text-stone-500 uppercase tracking-wider mb-1.5"
+          >
+            Email address
+          </label>
+          <input
+            id="login-email"
+            type="email"
+            name="email"
+            autocomplete="email"
+            required
+            placeholder="you@bsmath.edu"
+            class="
+              w-full bg-surface-container-low border border-outline-variant/30 rounded-lg
+              px-4 py-2.5 text-sm text-on-surface
+              focus:outline-none focus:ring-2 focus:ring-emerald-500/25 focus:border-primary
+              transition-all placeholder:text-stone-400
+            "
+          />
+        </div>
+
+        <!-- Password field -->
+        <div class="mb-6">
+          <label
+            for="login-password"
+            class="block text-xs font-bold text-stone-500 uppercase tracking-wider mb-1.5"
+          >
+            Password
+          </label>
+          <input
+            id="login-password"
+            type="password"
+            name="password"
+            autocomplete="current-password"
+            required
+            placeholder="••••••••"
+            class="
+              w-full bg-surface-container-low border border-outline-variant/30 rounded-lg
+              px-4 py-2.5 text-sm text-on-surface
+              focus:outline-none focus:ring-2 focus:ring-emerald-500/25 focus:border-primary
+              transition-all placeholder:text-stone-400
+            "
+          />
+        </div>
+
+        <!-- Error message (hidden until an error occurs) -->
+        <p
+          id="login-error"
+          role="alert"
+          class="text-sm text-secondary font-medium mb-4 min-h-[1.25rem]"
+        ></p>
+
+        <!-- Submit button -->
+        <button
+          id="login-submit"
+          type="submit"
+          class="
+            w-full flex items-center justify-center gap-2
+            bg-gradient-to-r from-primary to-emerald-500
+            text-white font-bold text-sm rounded-lg
+            px-6 py-3
+            shadow-lg shadow-emerald-900/15
+            hover:shadow-emerald-900/25
+            active:scale-[0.98]
+            transition-all
+            disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100
+          "
+        >
+          <!-- Spinner — hidden by default, shown during network request -->
+          <span
+            id="login-spinner"
+            class="material-symbols-outlined text-[18px] app-spinner"
+            style="display: none"
+            aria-hidden="true"
+          >autorenew</span>
+          Sign in
+        </button>
+
+      </form>
+    </div>
+
+    <!-- Footer note -->
+    <p class="text-center text-xs text-stone-400 mt-6">
+      Department of Mathematics &mdash; Admin Portal &copy; 2025
+    </p>
+
+  </div>
+</div>

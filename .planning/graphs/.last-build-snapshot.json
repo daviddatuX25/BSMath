@@ -1,0 +1,1969 @@
+{
+  "version": 1,
+  "timestamp": "2026-04-17T00:45:25.009Z",
+  "nodes": [
+    {
+      "label": "playwright.config.js",
+      "file_type": "code",
+      "source_file": "playwright.config.js",
+      "source_location": "L1",
+      "id": "playwright_config_js",
+      "community": 14,
+      "norm_label": "playwright.config.js"
+    },
+    {
+      "label": "connect.php",
+      "file_type": "code",
+      "source_file": "api\\connect.php",
+      "source_location": "L1",
+      "id": "api_connect_php",
+      "community": 15,
+      "norm_label": "connect.php"
+    },
+    {
+      "label": "destroy.php",
+      "file_type": "code",
+      "source_file": "api\\announcements\\destroy.php",
+      "source_location": "L1",
+      "id": "api_announcements_destroy_php",
+      "community": 16,
+      "norm_label": "destroy.php"
+    },
+    {
+      "label": "index.php",
+      "file_type": "code",
+      "source_file": "api\\announcements\\index.php",
+      "source_location": "L1",
+      "id": "api_announcements_index_php",
+      "community": 17,
+      "norm_label": "index.php"
+    },
+    {
+      "label": "store.php",
+      "file_type": "code",
+      "source_file": "api\\announcements\\store.php",
+      "source_location": "L1",
+      "id": "api_announcements_store_php",
+      "community": 18,
+      "norm_label": "store.php"
+    },
+    {
+      "label": "update.php",
+      "file_type": "code",
+      "source_file": "api\\announcements\\update.php",
+      "source_location": "L1",
+      "id": "api_announcements_update_php",
+      "community": 19,
+      "norm_label": "update.php"
+    },
+    {
+      "label": "approve.php",
+      "file_type": "code",
+      "source_file": "api\\approvals\\approve.php",
+      "source_location": "L1",
+      "id": "api_approvals_approve_php",
+      "community": 20,
+      "norm_label": "approve.php"
+    },
+    {
+      "label": "index.php",
+      "file_type": "code",
+      "source_file": "api\\approvals\\index.php",
+      "source_location": "L1",
+      "id": "api_approvals_index_php",
+      "community": 21,
+      "norm_label": "index.php"
+    },
+    {
+      "label": "reject.php",
+      "file_type": "code",
+      "source_file": "api\\approvals\\reject.php",
+      "source_location": "L1",
+      "id": "api_approvals_reject_php",
+      "community": 22,
+      "norm_label": "reject.php"
+    },
+    {
+      "label": "login.php",
+      "file_type": "code",
+      "source_file": "api\\auth\\login.php",
+      "source_location": "L1",
+      "id": "api_auth_login_php",
+      "community": 23,
+      "norm_label": "login.php"
+    },
+    {
+      "label": "logout.php",
+      "file_type": "code",
+      "source_file": "api\\auth\\logout.php",
+      "source_location": "L1",
+      "id": "api_auth_logout_php",
+      "community": 24,
+      "norm_label": "logout.php"
+    },
+    {
+      "label": "me.php",
+      "file_type": "code",
+      "source_file": "api\\auth\\me.php",
+      "source_location": "L1",
+      "id": "api_auth_me_php",
+      "community": 25,
+      "norm_label": "me.php"
+    },
+    {
+      "label": "activities.php",
+      "file_type": "code",
+      "source_file": "api\\dashboard\\activities.php",
+      "source_location": "L1",
+      "id": "api_dashboard_activities_php",
+      "community": 26,
+      "norm_label": "activities.php"
+    },
+    {
+      "label": "stats.php",
+      "file_type": "code",
+      "source_file": "api\\dashboard\\stats.php",
+      "source_location": "L1",
+      "id": "api_dashboard_stats_php",
+      "community": 27,
+      "norm_label": "stats.php"
+    },
+    {
+      "label": "destroy.php",
+      "file_type": "code",
+      "source_file": "api\\events\\destroy.php",
+      "source_location": "L1",
+      "id": "api_events_destroy_php",
+      "community": 28,
+      "norm_label": "destroy.php"
+    },
+    {
+      "label": "index.php",
+      "file_type": "code",
+      "source_file": "api\\events\\index.php",
+      "source_location": "L1",
+      "id": "api_events_index_php",
+      "community": 29,
+      "norm_label": "index.php"
+    },
+    {
+      "label": "store.php",
+      "file_type": "code",
+      "source_file": "api\\events\\store.php",
+      "source_location": "L1",
+      "id": "api_events_store_php",
+      "community": 30,
+      "norm_label": "store.php"
+    },
+    {
+      "label": "update.php",
+      "file_type": "code",
+      "source_file": "api\\events\\update.php",
+      "source_location": "L1",
+      "id": "api_events_update_php",
+      "community": 31,
+      "norm_label": "update.php"
+    },
+    {
+      "label": "destroy.php",
+      "file_type": "code",
+      "source_file": "api\\faculty\\destroy.php",
+      "source_location": "L1",
+      "id": "api_faculty_destroy_php",
+      "community": 32,
+      "norm_label": "destroy.php"
+    },
+    {
+      "label": "index.php",
+      "file_type": "code",
+      "source_file": "api\\faculty\\index.php",
+      "source_location": "L1",
+      "id": "api_faculty_index_php",
+      "community": 33,
+      "norm_label": "index.php"
+    },
+    {
+      "label": "store.php",
+      "file_type": "code",
+      "source_file": "api\\faculty\\store.php",
+      "source_location": "L1",
+      "id": "api_faculty_store_php",
+      "community": 34,
+      "norm_label": "store.php"
+    },
+    {
+      "label": "update.php",
+      "file_type": "code",
+      "source_file": "api\\faculty\\update.php",
+      "source_location": "L1",
+      "id": "api_faculty_update_php",
+      "community": 35,
+      "norm_label": "update.php"
+    },
+    {
+      "label": "destroy.php",
+      "file_type": "code",
+      "source_file": "api\\gallery\\destroy.php",
+      "source_location": "L1",
+      "id": "api_gallery_destroy_php",
+      "community": 36,
+      "norm_label": "destroy.php"
+    },
+    {
+      "label": "index.php",
+      "file_type": "code",
+      "source_file": "api\\gallery\\index.php",
+      "source_location": "L1",
+      "id": "api_gallery_index_php",
+      "community": 37,
+      "norm_label": "index.php"
+    },
+    {
+      "label": "store.php",
+      "file_type": "code",
+      "source_file": "api\\gallery\\store.php",
+      "source_location": "L1",
+      "id": "api_gallery_store_php",
+      "community": 38,
+      "norm_label": "store.php"
+    },
+    {
+      "label": "update.php",
+      "file_type": "code",
+      "source_file": "api\\gallery\\update.php",
+      "source_location": "L1",
+      "id": "api_gallery_update_php",
+      "community": 39,
+      "norm_label": "update.php"
+    },
+    {
+      "label": "log_activity.php",
+      "file_type": "code",
+      "source_file": "api\\helpers\\log_activity.php",
+      "source_location": "L1",
+      "id": "api_helpers_log_activity_php",
+      "community": 12,
+      "norm_label": "log_activity.php"
+    },
+    {
+      "label": "log_activity()",
+      "file_type": "code",
+      "source_file": "api\\helpers\\log_activity.php",
+      "source_location": "L7",
+      "id": "log_activity_log_activity",
+      "community": 12,
+      "norm_label": "log_activity()"
+    },
+    {
+      "label": "destroy.php",
+      "file_type": "code",
+      "source_file": "api\\news\\destroy.php",
+      "source_location": "L1",
+      "id": "api_news_destroy_php",
+      "community": 40,
+      "norm_label": "destroy.php"
+    },
+    {
+      "label": "index.php",
+      "file_type": "code",
+      "source_file": "api\\news\\index.php",
+      "source_location": "L1",
+      "id": "api_news_index_php",
+      "community": 41,
+      "norm_label": "index.php"
+    },
+    {
+      "label": "store.php",
+      "file_type": "code",
+      "source_file": "api\\news\\store.php",
+      "source_location": "L1",
+      "id": "api_news_store_php",
+      "community": 42,
+      "norm_label": "store.php"
+    },
+    {
+      "label": "update.php",
+      "file_type": "code",
+      "source_file": "api\\news\\update.php",
+      "source_location": "L1",
+      "id": "api_news_update_php",
+      "community": 43,
+      "norm_label": "update.php"
+    },
+    {
+      "label": "destroy.php",
+      "file_type": "code",
+      "source_file": "api\\programs\\destroy.php",
+      "source_location": "L1",
+      "id": "api_programs_destroy_php",
+      "community": 44,
+      "norm_label": "destroy.php"
+    },
+    {
+      "label": "index.php",
+      "file_type": "code",
+      "source_file": "api\\programs\\index.php",
+      "source_location": "L1",
+      "id": "api_programs_index_php",
+      "community": 45,
+      "norm_label": "index.php"
+    },
+    {
+      "label": "store.php",
+      "file_type": "code",
+      "source_file": "api\\programs\\store.php",
+      "source_location": "L1",
+      "id": "api_programs_store_php",
+      "community": 46,
+      "norm_label": "store.php"
+    },
+    {
+      "label": "update.php",
+      "file_type": "code",
+      "source_file": "api\\programs\\update.php",
+      "source_location": "L1",
+      "id": "api_programs_update_php",
+      "community": 47,
+      "norm_label": "update.php"
+    },
+    {
+      "label": "destroy.php",
+      "file_type": "code",
+      "source_file": "api\\users\\destroy.php",
+      "source_location": "L1",
+      "id": "api_users_destroy_php",
+      "community": 48,
+      "norm_label": "destroy.php"
+    },
+    {
+      "label": "index.php",
+      "file_type": "code",
+      "source_file": "api\\users\\index.php",
+      "source_location": "L1",
+      "id": "api_users_index_php",
+      "community": 49,
+      "norm_label": "index.php"
+    },
+    {
+      "label": "store.php",
+      "file_type": "code",
+      "source_file": "api\\users\\store.php",
+      "source_location": "L1",
+      "id": "api_users_store_php",
+      "community": 50,
+      "norm_label": "store.php"
+    },
+    {
+      "label": "update.php",
+      "file_type": "code",
+      "source_file": "api\\users\\update.php",
+      "source_location": "L1",
+      "id": "api_users_update_php",
+      "community": 51,
+      "norm_label": "update.php"
+    },
+    {
+      "label": "api.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\api.js",
+      "source_location": "L1",
+      "id": "assets_js_api_js",
+      "community": 9,
+      "norm_label": "api.js"
+    },
+    {
+      "label": "request()",
+      "file_type": "code",
+      "source_file": "assets\\js\\api.js",
+      "source_location": "L22",
+      "id": "api_request",
+      "community": 9,
+      "norm_label": "request()"
+    },
+    {
+      "label": "get()",
+      "file_type": "code",
+      "source_file": "assets\\js\\api.js",
+      "source_location": "L67",
+      "id": "api_get",
+      "community": 9,
+      "norm_label": "get()"
+    },
+    {
+      "label": "post()",
+      "file_type": "code",
+      "source_file": "assets\\js\\api.js",
+      "source_location": "L77",
+      "id": "api_post",
+      "community": 9,
+      "norm_label": "post()"
+    },
+    {
+      "label": "put()",
+      "file_type": "code",
+      "source_file": "assets\\js\\api.js",
+      "source_location": "L90",
+      "id": "api_put",
+      "community": 9,
+      "norm_label": "put()"
+    },
+    {
+      "label": "del()",
+      "file_type": "code",
+      "source_file": "assets\\js\\api.js",
+      "source_location": "L102",
+      "id": "api_del",
+      "community": 9,
+      "norm_label": "del()"
+    },
+    {
+      "label": "app.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\app.js",
+      "source_location": "L1",
+      "id": "assets_js_app_js",
+      "community": 11,
+      "norm_label": "app.js"
+    },
+    {
+      "label": "showToast()",
+      "file_type": "code",
+      "source_file": "assets\\js\\app.js",
+      "source_location": "L54",
+      "id": "app_showtoast",
+      "community": 11,
+      "norm_label": "showtoast()"
+    },
+    {
+      "label": "dismiss()",
+      "file_type": "code",
+      "source_file": "assets\\js\\app.js",
+      "source_location": "L94",
+      "id": "app_dismiss",
+      "community": 11,
+      "norm_label": "dismiss()"
+    },
+    {
+      "label": "setupMobileMenu()",
+      "file_type": "code",
+      "source_file": "assets\\js\\app.js",
+      "source_location": "L107",
+      "id": "app_setupmobilemenu",
+      "community": 11,
+      "norm_label": "setupmobilemenu()"
+    },
+    {
+      "label": "auth.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\auth.js",
+      "source_location": "L1",
+      "id": "assets_js_auth_js",
+      "community": 9,
+      "norm_label": "auth.js"
+    },
+    {
+      "label": "getUser()",
+      "file_type": "code",
+      "source_file": "assets\\js\\auth.js",
+      "source_location": "L24",
+      "id": "auth_getuser",
+      "community": 2,
+      "norm_label": "getuser()"
+    },
+    {
+      "label": "isLoggedIn()",
+      "file_type": "code",
+      "source_file": "assets\\js\\auth.js",
+      "source_location": "L34",
+      "id": "auth_isloggedin",
+      "community": 2,
+      "norm_label": "isloggedin()"
+    },
+    {
+      "label": "hasRole()",
+      "file_type": "code",
+      "source_file": "assets\\js\\auth.js",
+      "source_location": "L42",
+      "id": "auth_hasrole",
+      "community": 9,
+      "norm_label": "hasrole()"
+    },
+    {
+      "label": "me()",
+      "file_type": "code",
+      "source_file": "assets\\js\\auth.js",
+      "source_location": "L59",
+      "id": "auth_me",
+      "community": 9,
+      "norm_label": "me()"
+    },
+    {
+      "label": "login()",
+      "file_type": "code",
+      "source_file": "assets\\js\\auth.js",
+      "source_location": "L82",
+      "id": "auth_login",
+      "community": 9,
+      "norm_label": "login()"
+    },
+    {
+      "label": "logout()",
+      "file_type": "code",
+      "source_file": "assets\\js\\auth.js",
+      "source_location": "L102",
+      "id": "auth_logout",
+      "community": 9,
+      "norm_label": "logout()"
+    },
+    {
+      "label": "router.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L1",
+      "id": "assets_js_router_js",
+      "community": 2,
+      "norm_label": "router.js"
+    },
+    {
+      "label": "stubView()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L211",
+      "id": "router_stubview",
+      "community": 2,
+      "norm_label": "stubview()"
+    },
+    {
+      "label": "navigate()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L247",
+      "id": "router_navigate",
+      "community": 2,
+      "norm_label": "navigate()"
+    },
+    {
+      "label": "ensureShell()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L307",
+      "id": "router_ensureshell",
+      "community": 2,
+      "norm_label": "ensureshell()"
+    },
+    {
+      "label": "mountLogin()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L336",
+      "id": "router_mountlogin",
+      "community": 2,
+      "norm_label": "mountlogin()"
+    },
+    {
+      "label": "handleLoginSubmit()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L352",
+      "id": "router_handleloginsubmit",
+      "community": 2,
+      "norm_label": "handleloginsubmit()"
+    },
+    {
+      "label": "applyRbacToNav()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L385",
+      "id": "router_applyrbactonav",
+      "community": 2,
+      "norm_label": "applyrbactonav()"
+    },
+    {
+      "label": "populateSidebarUser()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L398",
+      "id": "router_populatesidebaruser",
+      "community": 2,
+      "norm_label": "populatesidebaruser()"
+    },
+    {
+      "label": "highlightNav()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L409",
+      "id": "router_highlightnav",
+      "community": 2,
+      "norm_label": "highlightnav()"
+    },
+    {
+      "label": "formatRole()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L418",
+      "id": "router_formatrole",
+      "community": 2,
+      "norm_label": "formatrole()"
+    },
+    {
+      "label": "currentPath()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L428",
+      "id": "router_currentpath",
+      "community": 2,
+      "norm_label": "currentpath()"
+    },
+    {
+      "label": "redirect()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L439",
+      "id": "router_redirect",
+      "community": 2,
+      "norm_label": "redirect()"
+    },
+    {
+      "label": "init()",
+      "file_type": "code",
+      "source_file": "assets\\js\\router.js",
+      "source_location": "L449",
+      "id": "router_init",
+      "community": 2,
+      "norm_label": "init()"
+    },
+    {
+      "label": "empty-state.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\empty-state.js",
+      "source_location": "L1",
+      "id": "assets_js_ui_empty_state_js",
+      "community": 8,
+      "norm_label": "empty-state.js"
+    },
+    {
+      "label": "emptyState()",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\empty-state.js",
+      "source_location": "L12",
+      "id": "empty_state_emptystate",
+      "community": 8,
+      "norm_label": "emptystate()"
+    },
+    {
+      "label": "modal.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\modal.js",
+      "source_location": "L1",
+      "id": "assets_js_ui_modal_js",
+      "community": 52,
+      "norm_label": "modal.js"
+    },
+    {
+      "label": "search.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\search.js",
+      "source_location": "L1",
+      "id": "assets_js_ui_search_js",
+      "community": 0,
+      "norm_label": "search.js"
+    },
+    {
+      "label": "initSearch()",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\search.js",
+      "source_location": "L11",
+      "id": "search_initsearch",
+      "community": 0,
+      "norm_label": "initsearch()"
+    },
+    {
+      "label": "setActiveView()",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\search.js",
+      "source_location": "L26",
+      "id": "search_setactiveview",
+      "community": 0,
+      "norm_label": "setactiveview()"
+    },
+    {
+      "label": "filterCurrentView()",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\search.js",
+      "source_location": "L38",
+      "id": "search_filtercurrentview",
+      "community": 0,
+      "norm_label": "filtercurrentview()"
+    },
+    {
+      "label": "skeleton.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\skeleton.js",
+      "source_location": "L1",
+      "id": "assets_js_ui_skeleton_js",
+      "community": 5,
+      "norm_label": "skeleton.js"
+    },
+    {
+      "label": "skeletonRows()",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\skeleton.js",
+      "source_location": "L11",
+      "id": "skeleton_skeletonrows",
+      "community": 5,
+      "norm_label": "skeletonrows()"
+    },
+    {
+      "label": "skeletonPage()",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\skeleton.js",
+      "source_location": "L27",
+      "id": "skeleton_skeletonpage",
+      "community": 5,
+      "norm_label": "skeletonpage()"
+    },
+    {
+      "label": "toast.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\toast.js",
+      "source_location": "L1",
+      "id": "assets_js_ui_toast_js",
+      "community": 13,
+      "norm_label": "toast.js"
+    },
+    {
+      "label": "getContainer()",
+      "file_type": "code",
+      "source_file": "assets\\js\\ui\\toast.js",
+      "source_location": "L8",
+      "id": "toast_getcontainer",
+      "community": 13,
+      "norm_label": "getcontainer()"
+    },
+    {
+      "label": "announcements.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L1",
+      "id": "assets_js_views_announcements_js",
+      "community": 3,
+      "norm_label": "announcements.js"
+    },
+    {
+      "label": "loadAnnouncements()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L13",
+      "id": "announcements_loadannouncements",
+      "community": 3,
+      "norm_label": "loadannouncements()"
+    },
+    {
+      "label": "refresh()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L19",
+      "id": "announcements_refresh",
+      "community": 3,
+      "norm_label": "refresh()"
+    },
+    {
+      "label": "renderHeader()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L38",
+      "id": "announcements_renderheader",
+      "community": 3,
+      "norm_label": "renderheader()"
+    },
+    {
+      "label": "renderFooter()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L52",
+      "id": "announcements_renderfooter",
+      "community": 3,
+      "norm_label": "renderfooter()"
+    },
+    {
+      "label": "renderPage()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L56",
+      "id": "announcements_renderpage",
+      "community": 3,
+      "norm_label": "renderpage()"
+    },
+    {
+      "label": "renderTable()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L63",
+      "id": "announcements_rendertable",
+      "community": 3,
+      "norm_label": "rendertable()"
+    },
+    {
+      "label": "priorityBadge()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L105",
+      "id": "announcements_prioritybadge",
+      "community": 3,
+      "norm_label": "prioritybadge()"
+    },
+    {
+      "label": "statusBadge()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L114",
+      "id": "announcements_statusbadge",
+      "community": 3,
+      "norm_label": "statusbadge()"
+    },
+    {
+      "label": "attachEvents()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L125",
+      "id": "announcements_attachevents",
+      "community": 3,
+      "norm_label": "attachevents()"
+    },
+    {
+      "label": "openAddModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L142",
+      "id": "announcements_openaddmodal",
+      "community": 3,
+      "norm_label": "openaddmodal()"
+    },
+    {
+      "label": "openEditModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L165",
+      "id": "announcements_openeditmodal",
+      "community": 3,
+      "norm_label": "openeditmodal()"
+    },
+    {
+      "label": "openDeleteModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L188",
+      "id": "announcements_opendeletemodal",
+      "community": 3,
+      "norm_label": "opendeletemodal()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L211",
+      "id": "announcements_escapehtml",
+      "community": 3,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "truncate()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L220",
+      "id": "announcements_truncate",
+      "community": 3,
+      "norm_label": "truncate()"
+    },
+    {
+      "label": "renderSkeleton()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L225",
+      "id": "announcements_renderskeleton",
+      "community": 3,
+      "norm_label": "renderskeleton()"
+    },
+    {
+      "label": "filterRows()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\announcements.js",
+      "source_location": "L242",
+      "id": "announcements_filterrows",
+      "community": 3,
+      "norm_label": "filterrows()"
+    },
+    {
+      "label": "approvals.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L1",
+      "id": "assets_js_views_approvals_js",
+      "community": 5,
+      "norm_label": "approvals.js"
+    },
+    {
+      "label": "loadApprovals()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L13",
+      "id": "approvals_loadapprovals",
+      "community": 5,
+      "norm_label": "loadapprovals()"
+    },
+    {
+      "label": "refresh()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L19",
+      "id": "approvals_refresh",
+      "community": 5,
+      "norm_label": "refresh()"
+    },
+    {
+      "label": "renderHeader()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L41",
+      "id": "approvals_renderheader",
+      "community": 5,
+      "norm_label": "renderheader()"
+    },
+    {
+      "label": "renderFooter()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L71",
+      "id": "approvals_renderfooter",
+      "community": 5,
+      "norm_label": "renderfooter()"
+    },
+    {
+      "label": "renderPage()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L75",
+      "id": "approvals_renderpage",
+      "community": 5,
+      "norm_label": "renderpage()"
+    },
+    {
+      "label": "renderTable()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L82",
+      "id": "approvals_rendertable",
+      "community": 5,
+      "norm_label": "rendertable()"
+    },
+    {
+      "label": "typeBadge()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L124",
+      "id": "approvals_typebadge",
+      "community": 5,
+      "norm_label": "typebadge()"
+    },
+    {
+      "label": "attachEvents()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L137",
+      "id": "approvals_attachevents",
+      "community": 5,
+      "norm_label": "attachevents()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L174",
+      "id": "approvals_escapehtml",
+      "community": 5,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "truncate()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L183",
+      "id": "approvals_truncate",
+      "community": 5,
+      "norm_label": "truncate()"
+    },
+    {
+      "label": "renderSkeleton()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L188",
+      "id": "approvals_renderskeleton",
+      "community": 5,
+      "norm_label": "renderskeleton()"
+    },
+    {
+      "label": "filterRows()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\approvals.js",
+      "source_location": "L209",
+      "id": "approvals_filterrows",
+      "community": 5,
+      "norm_label": "filterrows()"
+    },
+    {
+      "label": "dashboard.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\dashboard.js",
+      "source_location": "L1",
+      "id": "assets_js_views_dashboard_js",
+      "community": 10,
+      "norm_label": "dashboard.js"
+    },
+    {
+      "label": "loadDashboard()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\dashboard.js",
+      "source_location": "L8",
+      "id": "dashboard_loaddashboard",
+      "community": 10,
+      "norm_label": "loaddashboard()"
+    },
+    {
+      "label": "renderStatCard()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\dashboard.js",
+      "source_location": "L74",
+      "id": "dashboard_renderstatcard",
+      "community": 10,
+      "norm_label": "renderstatcard()"
+    },
+    {
+      "label": "renderQuickActions()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\dashboard.js",
+      "source_location": "L87",
+      "id": "dashboard_renderquickactions",
+      "community": 10,
+      "norm_label": "renderquickactions()"
+    },
+    {
+      "label": "renderSkeleton()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\dashboard.js",
+      "source_location": "L113",
+      "id": "dashboard_renderskeleton",
+      "community": 10,
+      "norm_label": "renderskeleton()"
+    },
+    {
+      "label": "formatDate()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\dashboard.js",
+      "source_location": "L124",
+      "id": "dashboard_formatdate",
+      "community": 10,
+      "norm_label": "formatdate()"
+    },
+    {
+      "label": "events.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L1",
+      "id": "assets_js_views_events_js",
+      "community": 1,
+      "norm_label": "events.js"
+    },
+    {
+      "label": "loadEvents()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L13",
+      "id": "events_loadevents",
+      "community": 1,
+      "norm_label": "loadevents()"
+    },
+    {
+      "label": "refresh()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L19",
+      "id": "events_refresh",
+      "community": 1,
+      "norm_label": "refresh()"
+    },
+    {
+      "label": "renderHeader()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L38",
+      "id": "events_renderheader",
+      "community": 1,
+      "norm_label": "renderheader()"
+    },
+    {
+      "label": "renderFooter()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L52",
+      "id": "events_renderfooter",
+      "community": 1,
+      "norm_label": "renderfooter()"
+    },
+    {
+      "label": "renderPage()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L56",
+      "id": "events_renderpage",
+      "community": 1,
+      "norm_label": "renderpage()"
+    },
+    {
+      "label": "renderTable()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L63",
+      "id": "events_rendertable",
+      "community": 1,
+      "norm_label": "rendertable()"
+    },
+    {
+      "label": "statusBadge()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L110",
+      "id": "events_statusbadge",
+      "community": 1,
+      "norm_label": "statusbadge()"
+    },
+    {
+      "label": "attachEvents()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L121",
+      "id": "events_attachevents",
+      "community": 1,
+      "norm_label": "attachevents()"
+    },
+    {
+      "label": "openAddModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L138",
+      "id": "events_openaddmodal",
+      "community": 1,
+      "norm_label": "openaddmodal()"
+    },
+    {
+      "label": "openEditModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L159",
+      "id": "events_openeditmodal",
+      "community": 1,
+      "norm_label": "openeditmodal()"
+    },
+    {
+      "label": "openDeleteModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L180",
+      "id": "events_opendeletemodal",
+      "community": 1,
+      "norm_label": "opendeletemodal()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L201",
+      "id": "events_escapehtml",
+      "community": 1,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "truncate()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L210",
+      "id": "events_truncate",
+      "community": 1,
+      "norm_label": "truncate()"
+    },
+    {
+      "label": "formatDate()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L215",
+      "id": "events_formatdate",
+      "community": 1,
+      "norm_label": "formatdate()"
+    },
+    {
+      "label": "formatTime()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L222",
+      "id": "events_formattime",
+      "community": 1,
+      "norm_label": "formattime()"
+    },
+    {
+      "label": "renderSkeleton()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L231",
+      "id": "events_renderskeleton",
+      "community": 1,
+      "norm_label": "renderskeleton()"
+    },
+    {
+      "label": "filterRows()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\events.js",
+      "source_location": "L248",
+      "id": "events_filterrows",
+      "community": 1,
+      "norm_label": "filterrows()"
+    },
+    {
+      "label": "faculty.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L1",
+      "id": "assets_js_views_faculty_js",
+      "community": 6,
+      "norm_label": "faculty.js"
+    },
+    {
+      "label": "loadFaculty()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L12",
+      "id": "faculty_loadfaculty",
+      "community": 6,
+      "norm_label": "loadfaculty()"
+    },
+    {
+      "label": "refresh()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L18",
+      "id": "faculty_refresh",
+      "community": 6,
+      "norm_label": "refresh()"
+    },
+    {
+      "label": "renderHeader()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L37",
+      "id": "faculty_renderheader",
+      "community": 6,
+      "norm_label": "renderheader()"
+    },
+    {
+      "label": "renderFooter()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L51",
+      "id": "faculty_renderfooter",
+      "community": 6,
+      "norm_label": "renderfooter()"
+    },
+    {
+      "label": "renderPage()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L55",
+      "id": "faculty_renderpage",
+      "community": 6,
+      "norm_label": "renderpage()"
+    },
+    {
+      "label": "renderTable()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L62",
+      "id": "faculty_rendertable",
+      "community": 6,
+      "norm_label": "rendertable()"
+    },
+    {
+      "label": "statusBadge()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L111",
+      "id": "faculty_statusbadge",
+      "community": 6,
+      "norm_label": "statusbadge()"
+    },
+    {
+      "label": "attachEvents()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L121",
+      "id": "faculty_attachevents",
+      "community": 6,
+      "norm_label": "attachevents()"
+    },
+    {
+      "label": "openAddModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L138",
+      "id": "faculty_openaddmodal",
+      "community": 6,
+      "norm_label": "openaddmodal()"
+    },
+    {
+      "label": "openEditModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L164",
+      "id": "faculty_openeditmodal",
+      "community": 6,
+      "norm_label": "openeditmodal()"
+    },
+    {
+      "label": "openDeleteModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L190",
+      "id": "faculty_opendeletemodal",
+      "community": 6,
+      "norm_label": "opendeletemodal()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L210",
+      "id": "faculty_escapehtml",
+      "community": 6,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "renderSkeleton()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L219",
+      "id": "faculty_renderskeleton",
+      "community": 6,
+      "norm_label": "renderskeleton()"
+    },
+    {
+      "label": "filterRows()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\faculty.js",
+      "source_location": "L236",
+      "id": "faculty_filterrows",
+      "community": 6,
+      "norm_label": "filterrows()"
+    },
+    {
+      "label": "gallery.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L1",
+      "id": "assets_js_views_gallery_js",
+      "community": 7,
+      "norm_label": "gallery.js"
+    },
+    {
+      "label": "loadGallery()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L13",
+      "id": "gallery_loadgallery",
+      "community": 7,
+      "norm_label": "loadgallery()"
+    },
+    {
+      "label": "refresh()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L19",
+      "id": "gallery_refresh",
+      "community": 7,
+      "norm_label": "refresh()"
+    },
+    {
+      "label": "renderHeader()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L38",
+      "id": "gallery_renderheader",
+      "community": 7,
+      "norm_label": "renderheader()"
+    },
+    {
+      "label": "renderFooter()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L52",
+      "id": "gallery_renderfooter",
+      "community": 7,
+      "norm_label": "renderfooter()"
+    },
+    {
+      "label": "renderPage()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L56",
+      "id": "gallery_renderpage",
+      "community": 7,
+      "norm_label": "renderpage()"
+    },
+    {
+      "label": "renderGrid()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L64",
+      "id": "gallery_rendergrid",
+      "community": 7,
+      "norm_label": "rendergrid()"
+    },
+    {
+      "label": "attachEvents()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L102",
+      "id": "gallery_attachevents",
+      "community": 7,
+      "norm_label": "attachevents()"
+    },
+    {
+      "label": "openAddModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L119",
+      "id": "gallery_openaddmodal",
+      "community": 7,
+      "norm_label": "openaddmodal()"
+    },
+    {
+      "label": "openEditModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L205",
+      "id": "gallery_openeditmodal",
+      "community": 7,
+      "norm_label": "openeditmodal()"
+    },
+    {
+      "label": "openDeleteModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L296",
+      "id": "gallery_opendeletemodal",
+      "community": 7,
+      "norm_label": "opendeletemodal()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L316",
+      "id": "gallery_escapehtml",
+      "community": 7,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "truncate()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L325",
+      "id": "gallery_truncate",
+      "community": 7,
+      "norm_label": "truncate()"
+    },
+    {
+      "label": "renderSkeleton()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L330",
+      "id": "gallery_renderskeleton",
+      "community": 7,
+      "norm_label": "renderskeleton()"
+    },
+    {
+      "label": "filterRows()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\gallery.js",
+      "source_location": "L349",
+      "id": "gallery_filterrows",
+      "community": 7,
+      "norm_label": "filterrows()"
+    },
+    {
+      "label": "news.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L1",
+      "id": "assets_js_views_news_js",
+      "community": 4,
+      "norm_label": "news.js"
+    },
+    {
+      "label": "loadNews()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L14",
+      "id": "news_loadnews",
+      "community": 4,
+      "norm_label": "loadnews()"
+    },
+    {
+      "label": "refresh()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L20",
+      "id": "news_refresh",
+      "community": 4,
+      "norm_label": "refresh()"
+    },
+    {
+      "label": "renderHeader()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L39",
+      "id": "news_renderheader",
+      "community": 4,
+      "norm_label": "renderheader()"
+    },
+    {
+      "label": "renderFooter()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L53",
+      "id": "news_renderfooter",
+      "community": 4,
+      "norm_label": "renderfooter()"
+    },
+    {
+      "label": "renderPage()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L57",
+      "id": "news_renderpage",
+      "community": 4,
+      "norm_label": "renderpage()"
+    },
+    {
+      "label": "renderTable()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L64",
+      "id": "news_rendertable",
+      "community": 4,
+      "norm_label": "rendertable()"
+    },
+    {
+      "label": "statusBadge()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L114",
+      "id": "news_statusbadge",
+      "community": 4,
+      "norm_label": "statusbadge()"
+    },
+    {
+      "label": "attachEvents()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L127",
+      "id": "news_attachevents",
+      "community": 4,
+      "norm_label": "attachevents()"
+    },
+    {
+      "label": "openAddModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L144",
+      "id": "news_openaddmodal",
+      "community": 4,
+      "norm_label": "openaddmodal()"
+    },
+    {
+      "label": "openEditModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L164",
+      "id": "news_openeditmodal",
+      "community": 4,
+      "norm_label": "openeditmodal()"
+    },
+    {
+      "label": "openDeleteModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L189",
+      "id": "news_opendeletemodal",
+      "community": 4,
+      "norm_label": "opendeletemodal()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L210",
+      "id": "news_escapehtml",
+      "community": 4,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "truncate()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L219",
+      "id": "news_truncate",
+      "community": 4,
+      "norm_label": "truncate()"
+    },
+    {
+      "label": "formatDate()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L224",
+      "id": "news_formatdate",
+      "community": 4,
+      "norm_label": "formatdate()"
+    },
+    {
+      "label": "renderSkeleton()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L230",
+      "id": "news_renderskeleton",
+      "community": 4,
+      "norm_label": "renderskeleton()"
+    },
+    {
+      "label": "filterRows()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\news.js",
+      "source_location": "L247",
+      "id": "news_filterrows",
+      "community": 4,
+      "norm_label": "filterrows()"
+    },
+    {
+      "label": "programs.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L1",
+      "id": "assets_js_views_programs_js",
+      "community": 8,
+      "norm_label": "programs.js"
+    },
+    {
+      "label": "loadPrograms()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L13",
+      "id": "programs_loadprograms",
+      "community": 8,
+      "norm_label": "loadprograms()"
+    },
+    {
+      "label": "refresh()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L19",
+      "id": "programs_refresh",
+      "community": 8,
+      "norm_label": "refresh()"
+    },
+    {
+      "label": "renderHeader()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L36",
+      "id": "programs_renderheader",
+      "community": 8,
+      "norm_label": "renderheader()"
+    },
+    {
+      "label": "renderFooter()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L50",
+      "id": "programs_renderfooter",
+      "community": 8,
+      "norm_label": "renderfooter()"
+    },
+    {
+      "label": "renderPage()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L54",
+      "id": "programs_renderpage",
+      "community": 8,
+      "norm_label": "renderpage()"
+    },
+    {
+      "label": "attachEvents()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L97",
+      "id": "programs_attachevents",
+      "community": 8,
+      "norm_label": "attachevents()"
+    },
+    {
+      "label": "openAddModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L114",
+      "id": "programs_openaddmodal",
+      "community": 8,
+      "norm_label": "openaddmodal()"
+    },
+    {
+      "label": "openEditModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L132",
+      "id": "programs_openeditmodal",
+      "community": 8,
+      "norm_label": "openeditmodal()"
+    },
+    {
+      "label": "openDeleteModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L150",
+      "id": "programs_opendeletemodal",
+      "community": 8,
+      "norm_label": "opendeletemodal()"
+    },
+    {
+      "label": "renderSkeleton()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L168",
+      "id": "programs_renderskeleton",
+      "community": 8,
+      "norm_label": "renderskeleton()"
+    },
+    {
+      "label": "filterRows()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\programs.js",
+      "source_location": "L185",
+      "id": "programs_filterrows",
+      "community": 8,
+      "norm_label": "filterrows()"
+    },
+    {
+      "label": "users.js",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L1",
+      "id": "assets_js_views_users_js",
+      "community": 0,
+      "norm_label": "users.js"
+    },
+    {
+      "label": "loadUsers()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L13",
+      "id": "users_loadusers",
+      "community": 0,
+      "norm_label": "loadusers()"
+    },
+    {
+      "label": "refresh()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L19",
+      "id": "users_refresh",
+      "community": 0,
+      "norm_label": "refresh()"
+    },
+    {
+      "label": "renderHeader()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L38",
+      "id": "users_renderheader",
+      "community": 0,
+      "norm_label": "renderheader()"
+    },
+    {
+      "label": "renderFooter()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L52",
+      "id": "users_renderfooter",
+      "community": 0,
+      "norm_label": "renderfooter()"
+    },
+    {
+      "label": "renderPage()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L56",
+      "id": "users_renderpage",
+      "community": 0,
+      "norm_label": "renderpage()"
+    },
+    {
+      "label": "renderTable()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L63",
+      "id": "users_rendertable",
+      "community": 0,
+      "norm_label": "rendertable()"
+    },
+    {
+      "label": "roleBadge()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L102",
+      "id": "users_rolebadge",
+      "community": 0,
+      "norm_label": "rolebadge()"
+    },
+    {
+      "label": "attachEvents()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L118",
+      "id": "users_attachevents",
+      "community": 0,
+      "norm_label": "attachevents()"
+    },
+    {
+      "label": "openAddModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L135",
+      "id": "users_openaddmodal",
+      "community": 0,
+      "norm_label": "openaddmodal()"
+    },
+    {
+      "label": "openEditModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L159",
+      "id": "users_openeditmodal",
+      "community": 0,
+      "norm_label": "openeditmodal()"
+    },
+    {
+      "label": "openDeleteModal()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L215",
+      "id": "users_opendeletemodal",
+      "community": 0,
+      "norm_label": "opendeletemodal()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L235",
+      "id": "users_escapehtml",
+      "community": 0,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "renderSkeleton()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L244",
+      "id": "users_renderskeleton",
+      "community": 0,
+      "norm_label": "renderskeleton()"
+    },
+    {
+      "label": "filterRows()",
+      "file_type": "code",
+      "source_file": "assets\\js\\views\\users.js",
+      "source_location": "L261",
+      "id": "users_filterrows",
+      "community": 0,
+      "norm_label": "filterrows()"
+    },
+    {
+      "label": "phase4-verification.spec.js",
+      "file_type": "code",
+      "source_file": "e2e-tests\\phase4-verification.spec.js",
+      "source_location": "L1",
+      "id": "e2e_tests_phase4_verification_spec_js",
+      "community": 2,
+      "norm_label": "phase4-verification.spec.js"
+    },
+    {
+      "label": "login()",
+      "file_type": "code",
+      "source_file": "e2e-tests\\phase4-verification.spec.js",
+      "source_location": "L16",
+      "id": "phase4_verification_spec_login",
+      "community": 2,
+      "norm_label": "login()"
+    },
+    {
+      "label": "connect.php",
+      "file_type": "code",
+      "source_file": "ws4.2 source code\\connect.php",
+      "source_location": "L1",
+      "id": "ws4_2_source_code_connect_php",
+      "community": 53,
+      "norm_label": "connect.php"
+    },
+    {
+      "label": "delete-profile.php",
+      "file_type": "code",
+      "source_file": "ws4.2 source code\\delete-profile.php",
+      "source_location": "L1",
+      "id": "ws4_2_source_code_delete_profile_php",
+      "community": 54,
+      "norm_label": "delete-profile.php"
+    },
+    {
+      "label": "fetch-edit-profile.php",
+      "file_type": "code",
+      "source_file": "ws4.2 source code\\fetch-edit-profile.php",
+      "source_location": "L1",
+      "id": "ws4_2_source_code_fetch_edit_profile_php",
+      "community": 55,
+      "norm_label": "fetch-edit-profile.php"
+    },
+    {
+      "label": "fetch-profile.php",
+      "file_type": "code",
+      "source_file": "ws4.2 source code\\fetch-profile.php",
+      "source_location": "L1",
+      "id": "ws4_2_source_code_fetch_profile_php",
+      "community": 56,
+      "norm_label": "fetch-profile.php"
+    },
+    {
+      "label": "load-profile.php",
+      "file_type": "code",
+      "source_file": "ws4.2 source code\\load-profile.php",
+      "source_location": "L1",
+      "id": "ws4_2_source_code_load_profile_php",
+      "community": 57,
+      "norm_label": "load-profile.php"
+    },
+    {
+      "label": "saving-profile.php",
+      "file_type": "code",
+      "source_file": "ws4.2 source code\\saving-profile.php",
+      "source_location": "L1",
+      "id": "ws4_2_source_code_saving_profile_php",
+      "community": 58,
+      "norm_label": "saving-profile.php"
+    }
+  ],
+  "edges": []
+}

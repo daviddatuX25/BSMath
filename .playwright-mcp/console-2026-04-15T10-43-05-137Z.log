@@ -1,0 +1,4 @@
+[    1369ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[    1478ms] Unexpected token ';'
+[    1656ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost/bsmath/api/auth/me.php:0
+[    2092ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost/favicon.ico:0

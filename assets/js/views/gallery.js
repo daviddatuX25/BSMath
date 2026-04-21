@@ -66,10 +66,14 @@ function renderGrid(items) {
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
             ${items.map(g => `
                 <div data-id="${g.id}" class="group relative rounded-lg overflow-hidden border border-stone-200 hover:shadow-md transition-shadow">
-                    <div class="aspect-video bg-stone-100 overflow-hidden">
+                    <div class="aspect-video bg-stone-100 overflow-hidden relative">
                         <img src="${escapeHtml(g.image_url)}" alt="${escapeHtml(g.title || '')}"
                             class="w-full h-full object-cover"
-                            onerror="this.style.display='none'">
+                            loading="lazy"
+                            onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'">
+                        <div class="hidden w-full h-full items-center justify-center bg-stone-100 text-stone-400">
+                            <span class="material-symbols-outlined text-[40px]">broken_image</span>
+                        </div>
                     </div>
                     <div class="p-3">
                         <div class="font-medium text-stone-800 text-sm">${escapeHtml(g.title || 'Untitled')}</div>
@@ -132,7 +136,11 @@ function openAddModal() {
                 <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/gif,image/webp" required
                     class="w-full text-sm text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
                 <p class="text-xs text-stone-400 mt-1">JPG, PNG, GIF, or WebP. Max 5 MB.</p>
+                <div id="gallery-preview" class="mt-2 hidden">
+                    <img id="gallery-preview-img" class="w-full max-h-48 object-contain rounded-lg border border-stone-200" alt="Preview">
+                </div>
             </div>
+            <p id="gallery-upload-error" class="text-red-600 text-sm hidden"></p>
         </div>`;
 
     modal.open({
@@ -140,6 +148,9 @@ function openAddModal() {
         body: html,
         confirmLabel: 'Upload',
         onConfirm: async () => {
+            const errEl = document.getElementById('gallery-upload-error');
+            if (errEl) errEl.classList.add('hidden');
+
             const title = document.getElementById('gallery-title').value.trim();
             const desc  = document.getElementById('gallery-desc').value.trim();
             const file  = document.getElementById('gallery-file').files[0];
@@ -147,26 +158,48 @@ function openAddModal() {
             if (!title) throw new Error('Title is required');
             if (!file)  throw new Error('Please select an image file');
 
-            // Use FormData for file upload — NOT JSON
             const formData = new FormData();
             formData.append('title', title);
             formData.append('description', desc);
             formData.append('image', file);
 
-            const res = await fetch('api/gallery/store.php', {
-                method: 'POST',
-                body: formData,
-                // WHY: No Content-Type header — browser sets multipart/form-data boundary automatically
-            });
-            const data = await res.json();
+            let data;
+            try {
+                const res = await fetch('api/gallery/store.php', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    body: formData,
+                });
+                data = await res.json();
+            } catch (err) {
+                throw new Error('Network error — check your connection');
+            }
 
             if (!data.success) throw new Error(data.error || 'Upload failed');
 
-            modal.close();
             toast.show('Gallery image uploaded', 'success');
             await refresh();
+            modal.close();
         },
     });
+
+    // Wire up live image preview when a file is selected
+    setTimeout(() => {
+        const fileInput = document.getElementById('gallery-file');
+        if (!fileInput) return;
+        fileInput.addEventListener('change', () => {
+            const preview = document.getElementById('gallery-preview');
+            const previewImg = document.getElementById('gallery-preview-img');
+            const file = fileInput.files[0];
+            if (!file || !preview || !previewImg) {
+                if (preview) preview.classList.add('hidden');
+                return;
+            }
+            previewImg.src = URL.createObjectURL(file);
+            previewImg.onload = () => preview.classList.remove('hidden');
+            previewImg.onerror = () => preview.classList.add('hidden');
+        });
+    }, 0);
 }
 
 function openEditModal(item) {
@@ -183,11 +216,22 @@ function openEditModal(item) {
                     class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">${escapeHtml(item.description || '')}</textarea>
             </div>
             <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Current Image</label>
+                <div class="w-full max-h-48 overflow-hidden rounded-lg border border-stone-200 bg-stone-50">
+                    <img src="${escapeHtml(item.image_url)}" alt="Current" class="w-full object-contain"
+                        onerror="this.parentElement.innerHTML='<div class=\\'flex items-center justify-center h-24 text-stone-400\\''><span class=\\'material-symbols-outlined text-3xl\\'>broken_image</span></div>'">
+                </div>
+            </div>
+            <div>
                 <label class="block text-sm font-medium text-stone-700 mb-1">Replace Image</label>
                 <input type="file" id="gallery-file" accept="image/jpeg,image/png,image/gif,image/webp"
                     class="w-full text-sm text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
                 <p class="text-xs text-stone-400 mt-1">Leave empty to keep current image.</p>
+                <div id="gallery-preview" class="mt-2 hidden">
+                    <img id="gallery-preview-img" class="w-full max-h-48 object-contain rounded-lg border border-stone-200" alt="Preview">
+                </div>
             </div>
+            <p id="gallery-upload-error" class="text-red-600 text-sm hidden"></p>
         </div>`;
 
     modal.open({
@@ -195,6 +239,9 @@ function openEditModal(item) {
         body: html,
         confirmLabel: 'Save Changes',
         onConfirm: async () => {
+            const errEl = document.getElementById('gallery-upload-error');
+            if (errEl) errEl.classList.add('hidden');
+
             const title = document.getElementById('gallery-title').value.trim();
             const desc  = document.getElementById('gallery-desc').value.trim();
             const file  = document.getElementById('gallery-file').files[0];
@@ -207,19 +254,43 @@ function openEditModal(item) {
             formData.append('description', desc);
             if (file) formData.append('image', file);
 
-            const res = await fetch('api/gallery/update.php', {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await res.json();
+            let data;
+            try {
+                const res = await fetch('api/gallery/update.php', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    body: formData,
+                });
+                data = await res.json();
+            } catch (err) {
+                throw new Error('Network error — check your connection');
+            }
 
             if (!data.success) throw new Error(data.error || 'Update failed');
 
-            modal.close();
             toast.show('Gallery image updated', 'success');
             await refresh();
+            modal.close();
         },
     });
+
+    // Wire up live image preview when a new file is selected
+    setTimeout(() => {
+        const fileInput = document.getElementById('gallery-file');
+        if (!fileInput) return;
+        fileInput.addEventListener('change', () => {
+            const preview = document.getElementById('gallery-preview');
+            const previewImg = document.getElementById('gallery-preview-img');
+            const file = fileInput.files[0];
+            if (!file || !preview || !previewImg) {
+                if (preview) preview.classList.add('hidden');
+                return;
+            }
+            previewImg.src = URL.createObjectURL(file);
+            previewImg.onload = () => preview.classList.remove('hidden');
+            previewImg.onerror = () => preview.classList.add('hidden');
+        });
+    }, 0);
 }
 
 function openDeleteModal(item) {

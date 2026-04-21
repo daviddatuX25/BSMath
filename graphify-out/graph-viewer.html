@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BSMath Knowledge Graph</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0e17; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; }
+#controls {
+  position: fixed; top: 12px; left: 12px; z-index: 10;
+  background: rgba(16,20,32,0.92); border: 1px solid #2a3a5c; border-radius: 10px;
+  padding: 14px 18px; width: 260px; backdrop-filter: blur(12px);
+}
+#controls h2 { font-size: 15px; color: #7eb8ff; margin-bottom: 8px; }
+#controls label { font-size: 12px; color: #8899bb; display: block; margin-top: 6px; }
+#controls input[type="text"], #controls select {
+  width: 100%; padding: 5px 8px; border-radius: 5px; border: 1px solid #2a3a5c;
+  background: #0d1220; color: #e0e0e0; font-size: 12px; margin-top: 3px;
+}
+#controls input[type="range"] { width: 100%; }
+#stats { font-size: 11px; color: #6677aa; margin-top: 8px; line-height: 1.5; }
+#tooltip {
+  position: fixed; display: none; z-index: 20;
+  background: rgba(10,14,23,0.96); border: 1px solid #3a5a8c; border-radius: 8px;
+  padding: 10px 14px; max-width: 320px; font-size: 12px; pointer-events: none;
+  backdrop-filter: blur(8px);
+}
+#tooltip .tt-label { font-weight: 700; color: #7eb8ff; font-size: 14px; }
+#tooltip .tt-meta { color: #8899bb; margin-top: 4px; }
+#legend {
+  position: fixed; bottom: 12px; left: 12px; z-index: 10;
+  background: rgba(16,20,32,0.88); border: 1px solid #2a3a5c; border-radius: 10px;
+  padding: 10px 14px; max-height: 200px; overflow-y: auto; backdrop-filter: blur(12px);
+}
+#legend h3 { font-size: 12px; color: #7eb8ff; margin-bottom: 4px; }
+.legend-item { font-size: 11px; display: flex; align-items: center; gap: 6px; padding: 2px 0; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+canvas { display: block; }
+</style>
+</head>
+<body>
+<div id="controls">
+  <h2>BSMath Knowledge Graph</h2>
+  <label>Search nodes</label>
+  <input type="text" id="search" placeholder="e.g. login, get, renderPage">
+  <label>Filter by community</label>
+  <select id="communityFilter"><option value="-1">All communities</option></select>
+  <label>Edge opacity <span id="edgeOpVal">0.25</span></label>
+  <input type="range" id="edgeOpacity" min="0" max="1" step="0.05" value="0.25">
+  <label>Repulsion <span id="repVal">300</span></label>
+  <input type="range" id="repulsion" min="50" max="800" step="10" value="300">
+  <div id="stats"></div>
+</div>
+<div id="tooltip"></div>
+<div id="legend"></div>
+<canvas id="canvas"></canvas>
+
+<script>
+const GRAPH_DATA = {"nodes":[{"id":"playwright_config_js","label":"playwright.config.js","community":14,"file":"playwright.config.js"},{"id":"api_connect_php","label":"connect.php","community":15,"file":"api\\connect.php"},{"id":"api_announcements_destroy_php","label":"destroy.php","community":16,"file":"api\\announcements\\destroy.php"},{"id":"api_announcements_index_php","label":"index.php","community":17,"file":"api\\announcements\\index.php"},{"id":"api_announcements_store_php","label":"store.php","community":18,"file":"api\\announcements\\store.php"},{"id":"api_announcements_update_php","label":"update.php","community":19,"file":"api\\announcements\\update.php"},{"id":"api_approvals_approve_php","label":"approve.php","community":20,"file":"api\\approvals\\approve.php"},{"id":"api_approvals_index_php","label":"index.php","community":21,"file":"api\\approvals\\index.php"},{"id":"api_approvals_reject_php","label":"reject.php","community":22,"file":"api\\approvals\\reject.php"},{"id":"api_auth_login_php","label":"login.php","community":23,"file":"api\\auth\\login.php"},{"id":"api_auth_logout_php","label":"logout.php","community":24,"file":"api\\auth\\logout.php"},{"id":"api_auth_me_php","label":"me.php","community":25,"file":"api\\auth\\me.php"},{"id":"api_dashboard_activities_php","label":"activities.php","community":26,"file":"api\\dashboard\\activities.php"},{"id":"api_dashboard_stats_php","label":"stats.php","community":27,"file":"api\\dashboard\\stats.php"},{"id":"api_events_destroy_php","label":"destroy.php","community":28,"file":"api\\events\\destroy.php"},{"id":"api_events_index_php","label":"index.php","community":29,"file":"api\\events\\index.php"},{"id":"api_events_store_php","label":"store.php","community":30,"file":"api\\events\\store.php"},{"id":"api_events_update_php","label":"update.php","community":31,"file":"api\\events\\update.php"},{"id":"api_faculty_destroy_php","label":"destroy.php","community":32,"file":"api\\faculty\\destroy.php"},{"id":"api_faculty_index_php","label":"index.php","community":33,"file":"api\\faculty\\index.php"},{"id":"api_faculty_store_php","label":"store.php","community":34,"file":"api\\faculty\\store.php"},{"id":"api_faculty_update_php","label":"update.php","community":35,"file":"api\\faculty\\update.php"},{"id":"api_gallery_destroy_php","label":"destroy.php","community":36,"file":"api\\gallery\\destroy.php"},{"id":"api_gallery_index_php","label":"index.php","community":37,"file":"api\\gallery\\index.php"},{"id":"api_gallery_store_php","label":"store.php","community":38,"file":"api\\gallery\\store.php"},{"id":"api_gallery_update_php","label":"update.php","community":39,"file":"api\\gallery\\update.php"},{"id":"api_helpers_log_activity_php","label":"log_activity.php","community":12,"file":"api\\helpers\\log_activity.php"},{"id":"log_activity_log_activity","label":"log_activity()","community":12,"file":"api\\helpers\\log_activity.php"},{"id":"api_news_destroy_php","label":"destroy.php","community":40,"file":"api\\news\\destroy.php"},{"id":"api_news_index_php","label":"index.php","community":41,"file":"api\\news\\index.php"},{"id":"api_news_store_php","label":"store.php","community":42,"file":"api\\news\\store.php"},{"id":"api_news_update_php","label":"update.php","community":43,"file":"api\\news\\update.php"},{"id":"api_programs_destroy_php","label":"destroy.php","community":44,"file":"api\\programs\\destroy.php"},{"id":"api_programs_index_php","label":"index.php","community":45,"file":"api\\programs\\index.php"},{"id":"api_programs_store_php","label":"store.php","community":46,"file":"api\\programs\\store.php"},{"id":"api_programs_update_php","label":"update.php","community":47,"file":"api\\programs\\update.php"},{"id":"api_users_destroy_php","label":"destroy.php","community":48,"file":"api\\users\\destroy.php"},{"id":"api_users_index_php","label":"index.php","community":49,"file":"api\\users\\index.php"},{"id":"api_users_store_php","label":"store.php","community":50,"file":"api\\users\\store.php"},{"id":"api_users_update_php","label":"update.php","community":51,"file":"api\\users\\update.php"},{"id":"assets_js_api_js","label":"api.js","community":9,"file":"assets\\js\\api.js"},{"id":"api_request","label":"request()","community":9,"file":"assets\\js\\api.js"},{"id":"api_get","label":"get()","community":9,"file":"assets\\js\\api.js"},{"id":"api_post","label":"post()","community":9,"file":"assets\\js\\api.js"},{"id":"api_put","label":"put()","community":9,"file":"assets\\js\\api.js"},{"id":"api_del","label":"del()","community":9,"file":"assets\\js\\api.js"},{"id":"assets_js_app_js","label":"app.js","community":11,"file":"assets\\js\\app.js"},{"id":"app_showtoast","label":"showToast()","community":11,"file":"assets\\js\\app.js"},{"id":"app_dismiss","label":"dismiss()","community":11,"file":"assets\\js\\app.js"},{"id":"app_setupmobilemenu","label":"setupMobileMenu()","community":11,"file":"assets\\js\\app.js"},{"id":"assets_js_auth_js","label":"auth.js","community":9,"file":"assets\\js\\auth.js"},{"id":"auth_getuser","label":"getUser()","community":2,"file":"assets\\js\\auth.js"},{"id":"auth_isloggedin","label":"isLoggedIn()","community":2,"file":"assets\\js\\auth.js"},{"id":"auth_hasrole","label":"hasRole()","community":9,"file":"assets\\js\\auth.js"},{"id":"auth_me","label":"me()","community":9,"file":"assets\\js\\auth.js"},{"id":"auth_login","label":"login()","community":9,"file":"assets\\js\\auth.js"},{"id":"auth_logout","label":"logout()","community":9,"file":"assets\\js\\auth.js"},{"id":"assets_js_router_js","label":"router.js","community":2,"file":"assets\\js\\router.js"},{"id":"router_stubview","label":"stubView()","community":2,"file":"assets\\js\\router.js"},{"id":"router_navigate","label":"navigate()","community":2,"file":"assets\\js\\router.js"},{"id":"router_ensureshell","label":"ensureShell()","community":2,"file":"assets\\js\\router.js"},{"id":"router_mountlogin","label":"mountLogin()","community":2,"file":"assets\\js\\router.js"},{"id":"router_handleloginsubmit","label":"handleLoginSubmit()","community":2,"file":"assets\\js\\router.js"},{"id":"router_applyrbactonav","label":"applyRbacToNav()","community":2,"file":"assets\\js\\router.js"},{"id":"router_populatesidebaruser","label":"populateSidebarUser()","community":2,"file":"assets\\js\\router.js"},{"id":"router_highlightnav","label":"highlightNav()","community":2,"file":"assets\\js\\router.js"},{"id":"router_formatrole","label":"formatRole()","community":2,"file":"assets\\js\\router.js"},{"id":"router_currentpath","label":"currentPath()","community":2,"file":"assets\\js\\router.js"},{"id":"router_redirect","label":"redirect()","community":2,"file":"assets\\js\\router.js"},{"id":"router_init","label":"init()","community":2,"file":"assets\\js\\router.js"},{"id":"assets_js_ui_empty_state_js","label":"empty-state.js","community":8,"file":"assets\\js\\ui\\empty-state.js"},{"id":"empty_state_emptystate","label":"emptyState()","community":8,"file":"assets\\js\\ui\\empty-state.js"},{"id":"assets_js_ui_modal_js","label":"modal.js","community":52,"file":"assets\\js\\ui\\modal.js"},{"id":"assets_js_ui_search_js","label":"search.js","community":0,"file":"assets\\js\\ui\\search.js"},{"id":"search_initsearch","label":"initSearch()","community":0,"file":"assets\\js\\ui\\search.js"},{"id":"search_setactiveview","label":"setActiveView()","community":0,"file":"assets\\js\\ui\\search.js"},{"id":"search_filtercurrentview","label":"filterCurrentView()","community":0,"file":"assets\\js\\ui\\search.js"},{"id":"assets_js_ui_skeleton_js","label":"skeleton.js","community":5,"file":"assets\\js\\ui\\skeleton.js"},{"id":"skeleton_skeletonrows","label":"skeletonRows()","community":5,"file":"assets\\js\\ui\\skeleton.js"},{"id":"skeleton_skeletonpage","label":"skeletonPage()","community":5,"file":"assets\\js\\ui\\skeleton.js"},{"id":"assets_js_ui_toast_js","label":"toast.js","community":13,"file":"assets\\js\\ui\\toast.js"},{"id":"toast_getcontainer","label":"getContainer()","community":13,"file":"assets\\js\\ui\\toast.js"},{"id":"assets_js_views_announcements_js","label":"announcements.js","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_loadannouncements","label":"loadAnnouncements()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_refresh","label":"refresh()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_renderheader","label":"renderHeader()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_renderfooter","label":"renderFooter()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_renderpage","label":"renderPage()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_rendertable","label":"renderTable()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_prioritybadge","label":"priorityBadge()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_statusbadge","label":"statusBadge()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_attachevents","label":"attachEvents()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_openaddmodal","label":"openAddModal()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_openeditmodal","label":"openEditModal()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_opendeletemodal","label":"openDeleteModal()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_escapehtml","label":"escapeHtml()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_truncate","label":"truncate()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_renderskeleton","label":"renderSkeleton()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"announcements_filterrows","label":"filterRows()","community":3,"file":"assets\\js\\views\\announcements.js"},{"id":"assets_js_views_approvals_js","label":"approvals.js","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_loadapprovals","label":"loadApprovals()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_refresh","label":"refresh()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_renderheader","label":"renderHeader()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_renderfooter","label":"renderFooter()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_renderpage","label":"renderPage()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_rendertable","label":"renderTable()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_typebadge","label":"typeBadge()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_attachevents","label":"attachEvents()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_escapehtml","label":"escapeHtml()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_truncate","label":"truncate()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_renderskeleton","label":"renderSkeleton()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"approvals_filterrows","label":"filterRows()","community":5,"file":"assets\\js\\views\\approvals.js"},{"id":"assets_js_views_dashboard_js","label":"dashboard.js","community":10,"file":"assets\\js\\views\\dashboard.js"},{"id":"dashboard_loaddashboard","label":"loadDashboard()","community":10,"file":"assets\\js\\views\\dashboard.js"},{"id":"dashboard_renderstatcard","label":"renderStatCard()","community":10,"file":"assets\\js\\views\\dashboard.js"},{"id":"dashboard_renderquickactions","label":"renderQuickActions()","community":10,"file":"assets\\js\\views\\dashboard.js"},{"id":"dashboard_renderskeleton","label":"renderSkeleton()","community":10,"file":"assets\\js\\views\\dashboard.js"},{"id":"dashboard_formatdate","label":"formatDate()","community":10,"file":"assets\\js\\views\\dashboard.js"},{"id":"assets_js_views_events_js","label":"events.js","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_loadevents","label":"loadEvents()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_refresh","label":"refresh()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_renderheader","label":"renderHeader()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_renderfooter","label":"renderFooter()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_renderpage","label":"renderPage()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_rendertable","label":"renderTable()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_statusbadge","label":"statusBadge()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_attachevents","label":"attachEvents()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_openaddmodal","label":"openAddModal()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_openeditmodal","label":"openEditModal()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_opendeletemodal","label":"openDeleteModal()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_escapehtml","label":"escapeHtml()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_truncate","label":"truncate()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_formatdate","label":"formatDate()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_formattime","label":"formatTime()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_renderskeleton","label":"renderSkeleton()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"events_filterrows","label":"filterRows()","community":1,"file":"assets\\js\\views\\events.js"},{"id":"assets_js_views_faculty_js","label":"faculty.js","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_loadfaculty","label":"loadFaculty()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_refresh","label":"refresh()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_renderheader","label":"renderHeader()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_renderfooter","label":"renderFooter()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_renderpage","label":"renderPage()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_rendertable","label":"renderTable()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_statusbadge","label":"statusBadge()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_attachevents","label":"attachEvents()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_openaddmodal","label":"openAddModal()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_openeditmodal","label":"openEditModal()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_opendeletemodal","label":"openDeleteModal()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_escapehtml","label":"escapeHtml()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_renderskeleton","label":"renderSkeleton()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"faculty_filterrows","label":"filterRows()","community":6,"file":"assets\\js\\views\\faculty.js"},{"id":"assets_js_views_gallery_js","label":"gallery.js","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_loadgallery","label":"loadGallery()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_refresh","label":"refresh()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_renderheader","label":"renderHeader()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_renderfooter","label":"renderFooter()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_renderpage","label":"renderPage()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_rendergrid","label":"renderGrid()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_attachevents","label":"attachEvents()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_openaddmodal","label":"openAddModal()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_openeditmodal","label":"openEditModal()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_opendeletemodal","label":"openDeleteModal()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_escapehtml","label":"escapeHtml()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_truncate","label":"truncate()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_renderskeleton","label":"renderSkeleton()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"gallery_filterrows","label":"filterRows()","community":7,"file":"assets\\js\\views\\gallery.js"},{"id":"assets_js_views_news_js","label":"news.js","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_loadnews","label":"loadNews()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_refresh","label":"refresh()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_renderheader","label":"renderHeader()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_renderfooter","label":"renderFooter()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_renderpage","label":"renderPage()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_rendertable","label":"renderTable()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_statusbadge","label":"statusBadge()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_attachevents","label":"attachEvents()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_openaddmodal","label":"openAddModal()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_openeditmodal","label":"openEditModal()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_opendeletemodal","label":"openDeleteModal()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_escapehtml","label":"escapeHtml()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_truncate","label":"truncate()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_formatdate","label":"formatDate()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_renderskeleton","label":"renderSkeleton()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"news_filterrows","label":"filterRows()","community":4,"file":"assets\\js\\views\\news.js"},{"id":"assets_js_views_programs_js","label":"programs.js","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_loadprograms","label":"loadPrograms()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_refresh","label":"refresh()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_renderheader","label":"renderHeader()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_renderfooter","label":"renderFooter()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_renderpage","label":"renderPage()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_attachevents","label":"attachEvents()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_openaddmodal","label":"openAddModal()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_openeditmodal","label":"openEditModal()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_opendeletemodal","label":"openDeleteModal()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_renderskeleton","label":"renderSkeleton()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"programs_filterrows","label":"filterRows()","community":8,"file":"assets\\js\\views\\programs.js"},{"id":"assets_js_views_users_js","label":"users.js","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_loadusers","label":"loadUsers()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_refresh","label":"refresh()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_renderheader","label":"renderHeader()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_renderfooter","label":"renderFooter()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_renderpage","label":"renderPage()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_rendertable","label":"renderTable()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_rolebadge","label":"roleBadge()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_attachevents","label":"attachEvents()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_openaddmodal","label":"openAddModal()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_openeditmodal","label":"openEditModal()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_opendeletemodal","label":"openDeleteModal()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_escapehtml","label":"escapeHtml()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_renderskeleton","label":"renderSkeleton()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"users_filterrows","label":"filterRows()","community":0,"file":"assets\\js\\views\\users.js"},{"id":"e2e_tests_phase4_verification_spec_js","label":"phase4-verification.spec.js","community":2,"file":"e2e-tests\\phase4-verification.spec.js"},{"id":"phase4_verification_spec_login","label":"login()","community":2,"file":"e2e-tests\\phase4-verification.spec.js"},{"id":"ws4_2_source_code_connect_php","label":"connect.php","community":53,"file":"ws4.2 source code\\connect.php"},{"id":"ws4_2_source_code_delete_profile_php","label":"delete-profile.php","community":54,"file":"ws4.2 source code\\delete-profile.php"},{"id":"ws4_2_source_code_fetch_edit_profile_php","label":"fetch-edit-profile.php","community":55,"file":"ws4.2 source code\\fetch-edit-profile.php"},{"id":"ws4_2_source_code_fetch_profile_php","label":"fetch-profile.php","community":56,"file":"ws4.2 source code\\fetch-profile.php"},{"id":"ws4_2_source_code_load_profile_php","label":"load-profile.php","community":57,"file":"ws4.2 source code\\load-profile.php"},{"id":"ws4_2_source_code_saving_profile_php","label":"saving-profile.php","community":58,"file":"ws4.2 source code\\saving-profile.php"}],"links":[{"source":"api_helpers_log_activity_php","target":"log_activity_log_activity","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_api_js","target":"api_request","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_api_js","target":"api_get","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_api_js","target":"api_post","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_api_js","target":"api_put","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_api_js","target":"api_del","relation":"contains","confidence":"EXTRACTED"},{"source":"api_request","target":"api_get","relation":"calls","confidence":"EXTRACTED"},{"source":"api_request","target":"api_post","relation":"calls","confidence":"EXTRACTED"},{"source":"api_request","target":"api_put","relation":"calls","confidence":"EXTRACTED"},{"source":"api_request","target":"api_del","relation":"calls","confidence":"EXTRACTED"},{"source":"api_get","target":"auth_me","relation":"calls","confidence":"INFERRED"},{"source":"api_get","target":"announcements_refresh","relation":"calls","confidence":"INFERRED"},{"source":"api_get","target":"approvals_refresh","relation":"calls","confidence":"INFERRED"},{"source":"api_get","target":"dashboard_loaddashboard","relation":"calls","confidence":"INFERRED"},{"source":"api_get","target":"events_refresh","relation":"calls","confidence":"INFERRED"},{"source":"api_get","target":"faculty_refresh","relation":"calls","confidence":"INFERRED"},{"source":"api_get","target":"gallery_refresh","relation":"calls","confidence":"INFERRED"},{"source":"api_get","target":"news_refresh","relation":"calls","confidence":"INFERRED"},{"source":"api_get","target":"programs_refresh","relation":"calls","confidence":"INFERRED"},{"source":"api_get","target":"users_refresh","relation":"calls","confidence":"INFERRED"},{"source":"api_post","target":"auth_login","relation":"calls","confidence":"INFERRED"},{"source":"api_post","target":"auth_logout","relation":"calls","confidence":"INFERRED"},{"source":"assets_js_app_js","target":"app_showtoast","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_app_js","target":"app_dismiss","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_app_js","target":"app_setupmobilemenu","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_auth_js","target":"auth_getuser","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_auth_js","target":"auth_isloggedin","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_auth_js","target":"auth_hasrole","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_auth_js","target":"auth_me","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_auth_js","target":"auth_login","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_auth_js","target":"auth_logout","relation":"contains","confidence":"EXTRACTED"},{"source":"auth_getuser","target":"auth_isloggedin","relation":"calls","confidence":"EXTRACTED"},{"source":"auth_getuser","target":"auth_hasrole","relation":"calls","confidence":"EXTRACTED"},{"source":"auth_getuser","target":"router_stubview","relation":"calls","confidence":"INFERRED"},{"source":"auth_getuser","target":"router_navigate","relation":"calls","confidence":"INFERRED"},{"source":"auth_getuser","target":"router_applyrbactonav","relation":"calls","confidence":"INFERRED"},{"source":"auth_getuser","target":"router_populatesidebaruser","relation":"calls","confidence":"INFERRED"},{"source":"auth_isloggedin","target":"router_navigate","relation":"calls","confidence":"INFERRED"},{"source":"assets_js_router_js","target":"router_stubview","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_navigate","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_ensureshell","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_mountlogin","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_handleloginsubmit","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_applyrbactonav","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_populatesidebaruser","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_highlightnav","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_formatrole","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_currentpath","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_redirect","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_router_js","target":"router_init","relation":"contains","confidence":"EXTRACTED"},{"source":"router_stubview","target":"router_formatrole","relation":"calls","confidence":"EXTRACTED"},{"source":"router_navigate","target":"router_redirect","relation":"calls","confidence":"EXTRACTED"},{"source":"router_navigate","target":"router_mountlogin","relation":"calls","confidence":"EXTRACTED"},{"source":"router_navigate","target":"router_ensureshell","relation":"calls","confidence":"EXTRACTED"},{"source":"router_navigate","target":"router_highlightnav","relation":"calls","confidence":"EXTRACTED"},{"source":"router_navigate","target":"router_init","relation":"calls","confidence":"EXTRACTED"},{"source":"router_ensureshell","target":"router_applyrbactonav","relation":"calls","confidence":"EXTRACTED"},{"source":"router_ensureshell","target":"router_populatesidebaruser","relation":"calls","confidence":"EXTRACTED"},{"source":"router_handleloginsubmit","target":"router_redirect","relation":"calls","confidence":"EXTRACTED"},{"source":"router_handleloginsubmit","target":"phase4_verification_spec_login","relation":"calls","confidence":"INFERRED"},{"source":"router_populatesidebaruser","target":"router_formatrole","relation":"calls","confidence":"EXTRACTED"},{"source":"router_currentpath","target":"router_init","relation":"calls","confidence":"EXTRACTED"},{"source":"assets_js_ui_empty_state_js","target":"empty_state_emptystate","relation":"contains","confidence":"EXTRACTED"},{"source":"empty_state_emptystate","target":"announcements_renderpage","relation":"calls","confidence":"INFERRED"},{"source":"empty_state_emptystate","target":"approvals_renderpage","relation":"calls","confidence":"INFERRED"},{"source":"empty_state_emptystate","target":"events_renderpage","relation":"calls","confidence":"INFERRED"},{"source":"empty_state_emptystate","target":"faculty_renderpage","relation":"calls","confidence":"INFERRED"},{"source":"empty_state_emptystate","target":"gallery_renderpage","relation":"calls","confidence":"INFERRED"},{"source":"empty_state_emptystate","target":"news_renderpage","relation":"calls","confidence":"INFERRED"},{"source":"empty_state_emptystate","target":"programs_renderpage","relation":"calls","confidence":"INFERRED"},{"source":"empty_state_emptystate","target":"users_renderpage","relation":"calls","confidence":"INFERRED"},{"source":"assets_js_ui_search_js","target":"search_initsearch","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_ui_search_js","target":"search_setactiveview","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_ui_search_js","target":"search_filtercurrentview","relation":"contains","confidence":"EXTRACTED"},{"source":"search_filtercurrentview","target":"users_filterrows","relation":"calls","confidence":"INFERRED"},{"source":"assets_js_ui_skeleton_js","target":"skeleton_skeletonrows","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_ui_skeleton_js","target":"skeleton_skeletonpage","relation":"contains","confidence":"EXTRACTED"},{"source":"skeleton_skeletonrows","target":"announcements_loadannouncements","relation":"calls","confidence":"INFERRED"},{"source":"skeleton_skeletonrows","target":"approvals_loadapprovals","relation":"calls","confidence":"INFERRED"},{"source":"skeleton_skeletonrows","target":"events_loadevents","relation":"calls","confidence":"INFERRED"},{"source":"skeleton_skeletonrows","target":"faculty_loadfaculty","relation":"calls","confidence":"INFERRED"},{"source":"skeleton_skeletonrows","target":"gallery_loadgallery","relation":"calls","confidence":"INFERRED"},{"source":"skeleton_skeletonrows","target":"news_loadnews","relation":"calls","confidence":"INFERRED"},{"source":"skeleton_skeletonrows","target":"programs_loadprograms","relation":"calls","confidence":"INFERRED"},{"source":"skeleton_skeletonrows","target":"users_loadusers","relation":"calls","confidence":"INFERRED"},{"source":"assets_js_ui_toast_js","target":"toast_getcontainer","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_loadannouncements","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_refresh","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_renderheader","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_renderfooter","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_renderpage","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_rendertable","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_prioritybadge","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_statusbadge","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_attachevents","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_openaddmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_openeditmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_opendeletemodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_escapehtml","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_truncate","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_renderskeleton","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_announcements_js","target":"announcements_filterrows","relation":"contains","confidence":"EXTRACTED"},{"source":"announcements_loadannouncements","target":"announcements_renderheader","relation":"calls","confidence":"EXTRACTED"},{"source":"announcements_loadannouncements","target":"announcements_refresh","relation":"calls","confidence":"EXTRACTED"},{"source":"announcements_refresh","target":"announcements_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"announcements_refresh","target":"announcements_attachevents","relation":"calls","confidence":"EXTRACTED"},{"source":"announcements_renderheader","target":"announcements_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"announcements_renderfooter","target":"announcements_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"announcements_renderpage","target":"announcements_rendertable","relation":"calls","confidence":"EXTRACTED"},{"source":"announcements_opendeletemodal","target":"announcements_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_loadapprovals","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_refresh","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_renderheader","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_renderfooter","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_renderpage","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_rendertable","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_typebadge","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_attachevents","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_escapehtml","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_truncate","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_renderskeleton","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_approvals_js","target":"approvals_filterrows","relation":"contains","confidence":"EXTRACTED"},{"source":"approvals_loadapprovals","target":"approvals_renderheader","relation":"calls","confidence":"EXTRACTED"},{"source":"approvals_loadapprovals","target":"approvals_refresh","relation":"calls","confidence":"EXTRACTED"},{"source":"approvals_refresh","target":"approvals_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"approvals_refresh","target":"approvals_attachevents","relation":"calls","confidence":"EXTRACTED"},{"source":"approvals_renderheader","target":"approvals_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"approvals_renderfooter","target":"approvals_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"approvals_renderpage","target":"approvals_rendertable","relation":"calls","confidence":"EXTRACTED"},{"source":"assets_js_views_dashboard_js","target":"dashboard_loaddashboard","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_dashboard_js","target":"dashboard_renderstatcard","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_dashboard_js","target":"dashboard_renderquickactions","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_dashboard_js","target":"dashboard_renderskeleton","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_dashboard_js","target":"dashboard_formatdate","relation":"contains","confidence":"EXTRACTED"},{"source":"dashboard_loaddashboard","target":"dashboard_renderskeleton","relation":"calls","confidence":"EXTRACTED"},{"source":"dashboard_loaddashboard","target":"dashboard_renderstatcard","relation":"calls","confidence":"EXTRACTED"},{"source":"dashboard_loaddashboard","target":"dashboard_renderquickactions","relation":"calls","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_loadevents","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_refresh","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_renderheader","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_renderfooter","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_renderpage","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_rendertable","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_statusbadge","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_attachevents","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_openaddmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_openeditmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_opendeletemodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_escapehtml","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_truncate","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_formatdate","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_formattime","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_renderskeleton","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_events_js","target":"events_filterrows","relation":"contains","confidence":"EXTRACTED"},{"source":"events_loadevents","target":"events_renderheader","relation":"calls","confidence":"EXTRACTED"},{"source":"events_loadevents","target":"events_refresh","relation":"calls","confidence":"EXTRACTED"},{"source":"events_refresh","target":"events_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"events_refresh","target":"events_attachevents","relation":"calls","confidence":"EXTRACTED"},{"source":"events_renderheader","target":"events_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"events_renderfooter","target":"events_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"events_renderpage","target":"events_rendertable","relation":"calls","confidence":"EXTRACTED"},{"source":"events_opendeletemodal","target":"events_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_loadfaculty","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_refresh","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_renderheader","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_renderfooter","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_renderpage","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_rendertable","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_statusbadge","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_attachevents","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_openaddmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_openeditmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_opendeletemodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_escapehtml","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_renderskeleton","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_faculty_js","target":"faculty_filterrows","relation":"contains","confidence":"EXTRACTED"},{"source":"faculty_loadfaculty","target":"faculty_renderheader","relation":"calls","confidence":"EXTRACTED"},{"source":"faculty_loadfaculty","target":"faculty_refresh","relation":"calls","confidence":"EXTRACTED"},{"source":"faculty_refresh","target":"faculty_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"faculty_refresh","target":"faculty_attachevents","relation":"calls","confidence":"EXTRACTED"},{"source":"faculty_renderheader","target":"faculty_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"faculty_renderfooter","target":"faculty_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"faculty_renderpage","target":"faculty_rendertable","relation":"calls","confidence":"EXTRACTED"},{"source":"faculty_opendeletemodal","target":"faculty_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_loadgallery","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_refresh","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_renderheader","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_renderfooter","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_renderpage","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_rendergrid","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_attachevents","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_openaddmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_openeditmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_opendeletemodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_escapehtml","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_truncate","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_renderskeleton","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_gallery_js","target":"gallery_filterrows","relation":"contains","confidence":"EXTRACTED"},{"source":"gallery_loadgallery","target":"gallery_renderheader","relation":"calls","confidence":"EXTRACTED"},{"source":"gallery_loadgallery","target":"gallery_refresh","relation":"calls","confidence":"EXTRACTED"},{"source":"gallery_refresh","target":"gallery_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"gallery_refresh","target":"gallery_attachevents","relation":"calls","confidence":"EXTRACTED"},{"source":"gallery_renderheader","target":"gallery_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"gallery_renderfooter","target":"gallery_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"gallery_renderpage","target":"gallery_rendergrid","relation":"calls","confidence":"EXTRACTED"},{"source":"gallery_openeditmodal","target":"gallery_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"gallery_opendeletemodal","target":"gallery_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_loadnews","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_refresh","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_renderheader","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_renderfooter","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_renderpage","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_rendertable","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_statusbadge","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_attachevents","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_openaddmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_openeditmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_opendeletemodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_escapehtml","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_truncate","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_formatdate","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_renderskeleton","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_news_js","target":"news_filterrows","relation":"contains","confidence":"EXTRACTED"},{"source":"news_loadnews","target":"news_renderheader","relation":"calls","confidence":"EXTRACTED"},{"source":"news_loadnews","target":"news_refresh","relation":"calls","confidence":"EXTRACTED"},{"source":"news_refresh","target":"news_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"news_refresh","target":"news_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"news_refresh","target":"news_attachevents","relation":"calls","confidence":"EXTRACTED"},{"source":"news_renderheader","target":"news_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"news_renderfooter","target":"news_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"news_renderpage","target":"news_rendertable","relation":"calls","confidence":"EXTRACTED"},{"source":"news_statusbadge","target":"news_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"news_opendeletemodal","target":"news_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_loadprograms","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_refresh","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_renderheader","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_renderfooter","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_renderpage","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_attachevents","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_openaddmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_openeditmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_opendeletemodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_renderskeleton","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_programs_js","target":"programs_filterrows","relation":"contains","confidence":"EXTRACTED"},{"source":"programs_loadprograms","target":"programs_renderheader","relation":"calls","confidence":"EXTRACTED"},{"source":"programs_loadprograms","target":"programs_refresh","relation":"calls","confidence":"EXTRACTED"},{"source":"programs_refresh","target":"programs_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"programs_refresh","target":"programs_attachevents","relation":"calls","confidence":"EXTRACTED"},{"source":"programs_renderheader","target":"programs_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"programs_renderfooter","target":"programs_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_loadusers","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_refresh","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_renderheader","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_renderfooter","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_renderpage","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_rendertable","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_rolebadge","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_attachevents","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_openaddmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_openeditmodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_opendeletemodal","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_escapehtml","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_renderskeleton","relation":"contains","confidence":"EXTRACTED"},{"source":"assets_js_views_users_js","target":"users_filterrows","relation":"contains","confidence":"EXTRACTED"},{"source":"users_loadusers","target":"users_renderheader","relation":"calls","confidence":"EXTRACTED"},{"source":"users_loadusers","target":"users_refresh","relation":"calls","confidence":"EXTRACTED"},{"source":"users_refresh","target":"users_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"users_refresh","target":"users_attachevents","relation":"calls","confidence":"EXTRACTED"},{"source":"users_renderheader","target":"users_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"users_renderfooter","target":"users_renderpage","relation":"calls","confidence":"EXTRACTED"},{"source":"users_renderpage","target":"users_rendertable","relation":"calls","confidence":"EXTRACTED"},{"source":"users_openeditmodal","target":"users_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"users_opendeletemodal","target":"users_escapehtml","relation":"calls","confidence":"EXTRACTED"},{"source":"e2e_tests_phase4_verification_spec_js","target":"phase4_verification_spec_login","relation":"contains","confidence":"EXTRACTED"}]};
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+const statsEl = document.getElementById('stats');
+const legendEl = document.getElementById('legend');
+
+let W, H, nodes = [], links = [], nodeMap = {}, communities = {};
+let hoverNode = null, selectedNode = null, dragNode = null;
+let mouseX = 0, mouseY = 0;
+let edgeOpacity = 0.25, repulsionForce = 300;
+let searchQuery = '', communityFilter = -1;
+
+// Color palette for communities
+const palette = [
+  '#4fc3f7','#7eb8ff','#81c784','#ffb74d','#f06292',
+  '#ba68c8','#4db6ac','#ff8a65','#a1887f','#90a4ae',
+  '#e57373','#64b5f6','#4dd0e1','#aed581','#ffd54f',
+  '#ffab91','#ce93d8','#80cbc4','#fff176','#b0bec5',
+  '#ef5350','#42a5f5','#26c6da','#9ccc65','#ffc107',
+  '#ff7043','#ab47bc','#26a69a','#ffee58','#78909c',
+  '#f44336','#2196f3','#00bcd4','#8bc34a','#ff9800',
+  '#ff5722','#9c27b0','#009688','#ffeb3b','#607d8b'
+];
+
+function resize() {
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W; canvas.height = H;
+}
+window.addEventListener('resize', resize);
+
+async function loadGraph() {
+  const data = GRAPH_DATA;
+
+  // Build node map
+  data.nodes.forEach(n => {
+    n.x = W/2 + (Math.random()-0.5)*200;
+    n.y = H/2 + (Math.random()-0.5)*200;
+    n.vx = 0; n.vy = 0;
+    nodeMap[n.id] = n;
+    if (n.community !== undefined) {
+      if (!communities[n.community]) communities[n.community] = [];
+      communities[n.community].push(n);
+    }
+  });
+  nodes = data.nodes;
+  links = data.links;
+
+  // Populate community filter
+  const sel = document.getElementById('communityFilter');
+  const sorted = Object.keys(communities).map(Number).sort((a,b)=>a-b);
+  sorted.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    const count = communities[c].length;
+    opt.textContent = `Community ${c} (${count} nodes)`;
+    sel.appendChild(opt);
+  });
+
+  // Build legend
+  let legendHTML = '<h3>Communities</h3>';
+  sorted.forEach(c => {
+    const color = palette[c % palette.length];
+    const count = communities[c].length;
+    if (count < 3) return; // skip singletons
+    const labels = communities[c].slice(0,3).map(n=>n.label).join(', ');
+    legendHTML += `<div class="legend-item"><div class="legend-dot" style="background:${color}"></div>${labels}${count>3?' +'+(count-3)+' more':''}</div>`;
+  });
+  legendEl.innerHTML = legendHTML;
+
+  updateStats();
+}
+
+function updateStats() {
+  const visible = nodes.filter(n => n.visible !== false);
+  statsEl.innerHTML = `${visible.length} nodes / ${links.length} edges<br>${Object.keys(communities).length} communities`;
+}
+
+function getCommunityColor(c) {
+  return palette[(c||0) % palette.length];
+}
+
+function isNodeVisible(n) {
+  if (communityFilter >= 0 && n.community !== communityFilter) return false;
+  if (searchQuery && !n.label.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+  return true;
+}
+
+function isLinkVisible(l) {
+  const s = nodeMap[l.source];
+  const t = nodeMap[l.target];
+  return s && t && isNodeVisible(s) && isNodeVisible(t);
+}
+
+// Force simulation
+function simulate() {
+  const eps = 0.01;
+  // Repulsion
+  for (let i = 0; i < nodes.length; i++) {
+    if (!isNodeVisible(nodes[i])) continue;
+    for (let j = i+1; j < nodes.length; j++) {
+      if (!isNodeVisible(nodes[j])) continue;
+      let dx = nodes[j].x - nodes[i].x;
+      let dy = nodes[j].y - nodes[i].y;
+      let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      let force = repulsionForce * repulsionForce / (dist * dist);
+      nodes[i].vx -= force * dx / dist;
+      nodes[i].vy -= force * dy / dist;
+      nodes[j].vx += force * dx / dist;
+      nodes[j].vy += force * dy / dist;
+    }
+  }
+  // Attraction along edges
+  const idealLen = 80;
+  for (const l of links) {
+    if (!isLinkVisible(l)) continue;
+    const s = nodeMap[l.source]; const t = nodeMap[l.target];
+    if (!s || !t) continue;
+    let dx = t.x - s.x; let dy = t.y - s.y;
+    let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+    let force = (dist - idealLen) * 0.05;
+    s.vx += force * dx / dist;
+    s.vy += force * dy / dist;
+    t.vx -= force * dx / dist;
+    t.vy -= force * dy / dist;
+  }
+  // Center gravity
+  for (const n of nodes) {
+    if (!isNodeVisible(n)) continue;
+    n.vx += (W/2 - n.x) * 0.001;
+    n.vy += (H/2 - n.y) * 0.001;
+    n.vx *= 0.85; n.vy *= 0.85;
+    if (n === dragNode) continue;
+    n.x += n.vx; n.y += n.vy;
+  }
+}
+
+function draw() {
+  ctx.fillStyle = '#0a0e17';
+  ctx.fillRect(0, 0, W, H);
+
+  // Draw edges
+  ctx.lineWidth = 1;
+  for (const l of links) {
+    if (!isLinkVisible(l)) continue;
+    const s = nodeMap[l.source]; const t = nodeMap[l.target];
+    if (!s || !t) continue;
+    const isHighlighted = hoverNode && (hoverNode.id === s.id || hoverNode.id === t.id);
+    const isSelected = selectedNode && (selectedNode.id === s.id || selectedNode.id === t.id);
+    const alpha = isHighlighted || isSelected ? 0.8 : edgeOpacity;
+    const color = l.confidence === 'INFERRED' ? `rgba(255,170,80,${alpha})` : `rgba(100,160,255,${alpha})`;
+    ctx.strokeStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(s.x, s.y);
+    ctx.lineTo(t.x, t.y);
+    ctx.stroke();
+    // Draw arrow for directed
+    if (l.relation === 'calls' || l.relation === 'contains') {
+      const angle = Math.atan2(t.y-s.y, t.x-s.x);
+      const midX = (s.x+t.x)/2, midY = (s.y+t.y)/2;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(midX + 6*Math.cos(angle), midY + 6*Math.sin(angle));
+      ctx.lineTo(midX + 6*Math.cos(angle + 2.5), midY + 6*Math.sin(angle + 2.5));
+      ctx.lineTo(midX + 6*Math.cos(angle - 2.5), midY + 6*Math.sin(angle - 2.5));
+      ctx.fill();
+    }
+  }
+
+  // Draw nodes
+  for (const n of nodes) {
+    if (!isNodeVisible(n)) continue;
+    const isHover = hoverNode && hoverNode.id === n.id;
+    const isSelected = selectedNode && selectedNode.id === n.id;
+    const isConn = hoverNode && links.some(l =>
+      (l.source === hoverNode.id && l.target === n.id) ||
+      (l.target === hoverNode.id && l.source === n.id)
+    );
+    const r = isHover || isSelected ? 10 : (isConn ? 8 : 5);
+
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, r, 0, Math.PI*2);
+    ctx.fillStyle = isHover || isSelected ? '#fff' :
+                    isConn ? '#7eb8ff' :
+                    getCommunityColor(n.community);
+    ctx.fill();
+
+    if (isHover || isSelected) {
+      ctx.strokeStyle = '#7eb8ff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      // Label
+      ctx.font = '13px Segoe UI';
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center';
+      ctx.fillText(n.label, n.x, n.y - 16);
+    } else if (isConn) {
+      ctx.font = '11px Segoe UI';
+      ctx.fillStyle = '#aabbee';
+      ctx.textAlign = 'center';
+      ctx.fillText(n.label, n.x, n.y - 12);
+    }
+  }
+
+  // Legend for edge types
+  ctx.font = '11px Segoe UI';
+  ctx.fillStyle = 'rgba(100,160,255,0.8)';
+  ctx.fillText('--- EXTRACTED', 12, H - 28);
+  ctx.fillStyle = 'rgba(255,170,80,0.8)';
+  ctx.fillText('--- INFERRED', 12, H - 12);
+}
+
+function loop() {
+  simulate();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+// Mouse interaction
+canvas.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  if (dragNode) {
+    dragNode.x = mouseX; dragNode.y = mouseY;
+    dragNode.vx = 0; dragNode.vy = 0;
+    return;
+  }
+  hoverNode = null;
+  for (const n of nodes) {
+    if (!isNodeVisible(n)) continue;
+    const dx = n.x - mouseX, dy = n.y - mouseY;
+    if (dx*dx + dy*dy < 144) { hoverNode = n; break; }
+  }
+  if (hoverNode) {
+    const connCount = links.filter(l => l.source === hoverNode.id || l.target === hoverNode.id).length;
+    tooltip.style.display = 'block';
+    tooltip.style.left = (mouseX + 16) + 'px';
+    tooltip.style.top = (mouseY - 10) + 'px';
+    tooltip.innerHTML = `<div class="tt-label">${hoverNode.label}</div>
+      <div class="tt-meta">File: ${hoverNode.source_file || '?'}<br>
+      Community: ${hoverNode.community}<br>
+      Connections: ${connCount}<br>
+      Type: ${hoverNode.file_type || 'code'}</div>`;
+    canvas.style.cursor = 'pointer';
+  } else {
+    tooltip.style.display = 'none';
+    canvas.style.cursor = 'default';
+  }
+});
+
+canvas.addEventListener('mousedown', e => {
+  if (hoverNode) {
+    dragNode = hoverNode;
+    canvas.style.cursor = 'grabbing';
+  }
+});
+
+canvas.addEventListener('mouseup', () => {
+  if (dragNode && dragNode !== hoverNode) {
+    // Clicked on a different node — select it
+  }
+  dragNode = null;
+  canvas.style.cursor = hoverNode ? 'pointer' : 'default';
+});
+
+canvas.addEventListener('click', e => {
+  if (hoverNode) {
+    selectedNode = selectedNode === hoverNode ? null : hoverNode;
+  } else {
+    selectedNode = null;
+  }
+});
+
+// Controls
+document.getElementById('edgeOpacity').addEventListener('input', e => {
+  edgeOpacity = parseFloat(e.target.value);
+  document.getElementById('edgeOpVal').textContent = edgeOpacity.toFixed(2);
+});
+
+document.getElementById('repulsion').addEventListener('input', e => {
+  repulsionForce = parseInt(e.target.value);
+  document.getElementById('repVal').textContent = repulsionForce;
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  updateStats();
+});
+
+document.getElementById('communityFilter').addEventListener('change', e => {
+  communityFilter = parseInt(e.target.value);
+  updateStats();
+});
+
+resize();
+loadGraph().then(() => loop());
+</script>
+</body>
+</html>

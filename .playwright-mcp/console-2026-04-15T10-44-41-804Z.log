@@ -1,0 +1,23 @@
+[   21365ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[   22179ms] Unexpected token ';'
+[   39302ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[   39344ms] Unexpected token ';'
+[   53368ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[   53371ms] Unexpected token ';'
+[  113185ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[  113188ms] Unexpected token ';'
+[  119691ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[  119693ms] Unexpected token ';'
+[  149078ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[  149082ms] Unexpected token ';'
+[  294748ms] [ERROR] [top] Error: Uncaught SyntaxError: Failed to execute 'appendChild' on 'Node': Unexpected token ';' at http://localhost/bsmath/ :80 @ http://localhost/bsmath/:137
+[  294748ms] [ERROR] [app] Uncaught error: Uncaught SyntaxError: Failed to execute 'appendChild' on 'Node': Unexpected token ';' at http://localhost/bsmath/ line 80 col 8 @ http://localhost/bsmath/assets/js/app.js:3
+[  294755ms] SyntaxError: Failed to execute 'appendChild' on 'Node': Unexpected token ';'
+    at eval (eval at evaluate (:301:30), <anonymous>:10:25)
+    at UtilityScript.evaluate (<anonymous>:303:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+[  426529ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[  426545ms] Unexpected token ';'
+[  498855ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/?plugins=forms,container-queries:63
+[  498938ms] Unexpected token ';'
+[  499440ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost/favicon.ico:0

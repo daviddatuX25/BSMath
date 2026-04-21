@@ -1,0 +1,13 @@
+[GET] http://localhost/bsmath/ => [200] OK
+[GET] https://cdn.tailwindcss.com/?plugins=forms,container-queries => [302] 
+[GET] https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Work+Sans:wght@300;400;500;600;700&display=swap => [200] 
+[GET] https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap => [200] 
+[GET] http://localhost/bsmath/assets/css/app.css => [200] OK
+[GET] http://localhost/bsmath/assets/js/app.js => [200] OK
+[GET] https://cdn.tailwindcss.com/3.4.17?plugins=forms@0.5.10,container-queries@0.1.1 => [200] 
+[GET] https://fonts.gstatic.com/s/materialsymbolsoutlined/v325/kJEPBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzBwG-RpA6RzaxHMPdY40KH8nGzv3fzfVJO1Q.woff2 => [200] 
+[GET] http://localhost/bsmath/assets/js/auth.js => [200] OK
+[GET] http://localhost/bsmath/assets/js/router.js => [200] OK
+[GET] http://localhost/bsmath/assets/js/api.js => [200] OK
+[GET] http://localhost/bsmath/api/auth/me.php => [401] Unauthorized
+[GET] http://localhost/bsmath/views/login.html => [200] OK

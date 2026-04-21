@@ -30,7 +30,8 @@ export const modal = {
         _overlay.innerHTML = `
             <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
                 <h3 class="font-serif text-lg font-semibold text-stone-900 mb-2">${title}</h3>
-                <p class="text-stone-600 text-sm mb-6">${body}</p>
+                <div class="text-stone-600 text-sm mb-6">${body}</div>
+                <p id="modal-error" class="text-red-600 text-sm mb-2 hidden"></p>
                 <div class="flex justify-end gap-3">
                     <button id="modal-cancel"
                         class="px-4 py-2 text-sm font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-lg transition-colors">
@@ -48,8 +49,14 @@ export const modal = {
 
         _overlay.querySelector('#modal-cancel').addEventListener('click', modal.close);
         _overlay.querySelector('#modal-confirm').addEventListener('click', async () => {
-            if (onConfirm) await onConfirm();
-            modal.close();
+            const errEl = _overlay.querySelector('#modal-error');
+            if (errEl) { errEl.textContent = ''; errEl.classList.add('hidden'); }
+            try {
+                if (onConfirm) await onConfirm();
+                modal.close();
+            } catch (err) {
+                if (errEl) { errEl.textContent = err.message || 'An error occurred'; errEl.classList.remove('hidden'); }
+            }
         });
 
         // Close on overlay click

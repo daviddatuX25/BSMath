@@ -82,7 +82,7 @@ function renderTable(items) {
                                 ${n.image_url ? `
                                     <img src="${escapeHtml(n.image_url)}" alt=""
                                         class="w-10 h-10 rounded object-cover flex-shrink-0 bg-stone-100"
-                                        onerror="this.style.display='none'">` : ''}
+                                        onerror="this.onerror=null;this.outerHTML='<div class=\\'w-10 h-10 rounded bg-stone-200 flex items-center justify-center flex-shrink-0\\'><span class=\\'material-symbols-outlined text-stone-400 text-lg\\'>newspaper</span></div>'">` : ''}
                                 <div>
                                     <div class="font-medium text-stone-800">${escapeHtml(n.title)}</div>
                                     <div class="text-stone-400 text-xs mt-0.5 truncate max-w-md">${escapeHtml(truncate(n.content, 80))}</div>

@@ -1,4 +1,7 @@
 # Block PHP execution in the uploads directory
 # WHY: If an attacker uploads a .php file, Apache will not execute it.
-php_flag engine off
-SetHandler default-handler
+# NOTE: php_flag only works with mod_php (not FastCGI/CGI), which causes 500 errors on Laragon.
+# Using FilesMatch instead for broad compatibility.
+<FilesMatch "\.ph(?:p[3457]?|t|tml)$">
+    Require all denied
+</FilesMatch>
