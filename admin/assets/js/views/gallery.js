@@ -165,7 +165,7 @@ function openAddModal() {
 
             let data;
             try {
-                const res = await fetch('api/gallery/store.php', {
+                const res = await fetch('../api/gallery/store.php', {
                     method: 'POST',
                     credentials: 'same-origin',
                     body: formData,
@@ -256,7 +256,7 @@ function openEditModal(item) {
 
             let data;
             try {
-                const res = await fetch('api/gallery/update.php', {
+                const res = await fetch('../api/gallery/update.php', {
                     method: 'POST',
                     credentials: 'same-origin',
                     body: formData,

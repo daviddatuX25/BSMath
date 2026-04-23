@@ -10,7 +10,7 @@
  */
 
 /** Base path to the API directory, relative to index.html. */
-const BASE = 'api';
+const BASE = '../api';
 
 /**
  * Internal helper — executes a fetch request and returns a normalised result.
