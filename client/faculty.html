@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty — BS Mathematics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/client.css">
+</head>
+<body>
+  <nav class="client-nav">
+    <a href="index.html" class="brand">BS Mathematics</a>
+    <a href="programs.html">Programs</a>
+    <a href="announcements.html">Announcements</a>
+    <a href="events.html">Events</a>
+    <a href="news.html">News</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="faculty.html" class="active">Faculty</a>
+  </nav>
+
+  <div class="section-page">
+    <h2>Faculty</h2>
+    <div id="content" class="faculty-grid"></div>
+  </div>
+
+  <footer class="client-footer">
+    &copy; 2026 BS Mathematics Department — College of Computing and Information Technology
+  </footer>
+
+  <script src="js/fetch-section.js"></script>
+  <script>
+    fetchSection('../public_api/faculty_api.php', function(data) {
+      return data.map(function(f) {
+        var img = f.image_url
+          ? '<img src="' + f.image_url + '" alt="' + f.name + '">'
+          : '<div style="width:64px;height:64px;border-radius:50%;background:#e2e3e1;display:flex;align-items:center;justify-content:center;color:#6e7a6e;font-size:1.25rem;font-weight:600;flex-shrink:0;">' + f.name.charAt(0) + '</div>';
+        return '<div class="faculty-card">' +
+          img +
+          '<div class="info">' +
+          '<h3>' + f.name + '</h3>' +
+          '<p>' + (f.position || '') + '</p>' +
+          (f.specialization ? '<p>' + f.specialization + '</p>' : '') +
+          '</div>' +
+          '</div>';
+      }).join('');
+    });
+  </script>
+</body>
+</html>
