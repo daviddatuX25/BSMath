@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements — BS Mathematics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/client.css">
+</head>
+<body>
+  <nav class="client-nav">
+    <a href="index.html" class="brand">BS Mathematics</a>
+    <a href="programs.html">Programs</a>
+    <a href="announcements.html" class="active">Announcements</a>
+    <a href="events.html">Events</a>
+    <a href="news.html">News</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="faculty.html">Faculty</a>
+  </nav>
+
+  <div class="section-page">
+    <h2>Announcements</h2>
+    <div id="content"></div>
+  </div>
+
+  <footer class="client-footer">
+    &copy; 2026 BS Mathematics Department — College of Computing and Information Technology
+  </footer>
+
+  <script src="js/fetch-section.js"></script>
+  <script>
+    fetchSection('../public_api/announcements_api.php', function(data) {
+      return data.map(function(a) {
+        var date = a.created_at ? new Date(a.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+        return '<div class="content-card">' +
+          '<h3>' + a.title + '</h3>' +
+          '<p>' + a.content + '</p>' +
+          (date ? '<span class="meta">' + date + '</span>' : '') +
+          '</div>';
+      }).join('');
+    });
+  </script>
+</body>
+</html>
