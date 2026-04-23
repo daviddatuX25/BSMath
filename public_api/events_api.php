@@ -13,6 +13,11 @@ if ($conn->connect_error) {
 $conn->set_charset("utf8");
 
 $result = $conn->query("SELECT id, title, description, event_date, event_time, location FROM events WHERE status = 'approved' ORDER BY event_date ASC");
+if (!$result) {
+    http_response_code(500);
+    echo json_encode(["error" => "Query failed"]);
+    exit;
+}
 
 $data = array();
 while ($row = $result->fetch_assoc()) {
