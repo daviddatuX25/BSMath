@@ -562,6 +562,25 @@ h1, h2, h3, h4 {
   transform: scale(1.05);
 }
 
+.gallery-item .caption {
+  padding: 1.25rem;
+}
+
+.gallery-item .caption h3 {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  color: var(--on-surface);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.gallery-item .caption p {
+  color: var(--on-surface-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
 .faculty-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
