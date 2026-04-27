@@ -30,9 +30,10 @@
   <script src="js/fetch-section.js"></script>
   <script>
     fetchSection('../public_api/gallery_api.php', function(data) {
+
       return data.map(function(g) {
         return '<div class="gallery-item">' +
-          '<img src="' + g.image_url + '" alt="' + (g.title || '') + '" onerror="this.src=\'https://via.placeholder.com/400x200?text=Image+Not+Found\'">' +
+          '<img src="' + g.image_url + '" alt="' + (g.title || '') + '" onerror="this.src=\'https://placehold.co/400x200?text=Image+Not+Found&?font=roboto\'">' +
           '<div class="caption">' +
           (g.title ? '<h3>' + g.title + '</h3>' : '') +
           (g.description ? '<p>' + g.description + '</p>' : '') +

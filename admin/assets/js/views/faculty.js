@@ -1,5 +1,6 @@
 // assets/js/views/faculty.js
 // CRUD view for Faculty. Admin only. Called by router.js.
+// DIFFERENT from other views: uses FormData (not JSON) for image upload.
 
 import { api }   from '../api.js';
 import { toast } from '../ui/toast.js';
@@ -136,55 +137,239 @@ function attachEvents(canvas) {
 // ── Modals ─────────────────────────────────────────────────────────────
 
 function openAddModal() {
-    modal.openForm({
+    const html = `
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Name <span class="text-red-500">*</span></label>
+                <input type="text" id="faculty-name" required placeholder="e.g. Dr. Maria Santos"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Email</label>
+                <input type="email" id="faculty-email" placeholder="e.g. maria@bsmath.test"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Position</label>
+                <input type="text" id="faculty-position" placeholder="e.g. Professor"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Department</label>
+                <input type="text" id="faculty-department" placeholder="e.g. Mathematics"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Specialization</label>
+                <input type="text" id="faculty-specialization" placeholder="e.g. Abstract Algebra"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Photo</label>
+                <input type="file" id="faculty-file" accept="image/jpeg,image/png,image/gif,image/webp"
+                    class="w-full text-sm text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                <p class="text-xs text-stone-400 mt-1">JPG, PNG, GIF, or WebP. Max 5 MB.</p>
+                <div id="faculty-preview" class="mt-2 hidden">
+                    <img id="faculty-preview-img" class="w-20 h-20 object-cover rounded-full border border-stone-200" alt="Preview">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Status</label>
+                <select id="faculty-status"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+            <p id="faculty-error" class="text-red-600 text-sm hidden"></p>
+        </div>`;
+
+    modal.open({
         title: 'Add Faculty Member',
-        fields: [
-            { name: 'name',           label: 'Name',           type: 'text',     required: true,  placeholder: 'e.g. Dr. Maria Santos' },
-            { name: 'email',          label: 'Email',          type: 'text',     required: false, placeholder: 'e.g. maria@bsmath.test' },
-            { name: 'position',       label: 'Position',       type: 'text',     required: false, placeholder: 'e.g. Professor' },
-            { name: 'department',     label: 'Department',     type: 'text',     required: false, placeholder: 'e.g. Mathematics' },
-            { name: 'specialization', label: 'Specialization', type: 'text',     required: false, placeholder: 'e.g. Abstract Algebra' },
-            { name: 'image_url',      label: 'Photo URL',      type: 'text',     required: false, placeholder: 'https://...' },
-            { name: 'status',         label: 'Status',         type: 'select',   required: false, options: [
-                { value: 'active',   label: 'Active' },
-                { value: 'inactive', label: 'Inactive' },
-            ], value: 'active' },
-        ],
-        submitLabel: 'Add Faculty',
-        onSubmit: async (data) => {
-            const res = await api.post('faculty/store.php', data);
-            if (!res.success) throw new Error(res.error || 'Failed to add faculty');
-            modal.close();
+        body: html,
+        confirmLabel: 'Add Faculty',
+        onConfirm: async () => {
+            const errEl = document.getElementById('faculty-error');
+            if (errEl) errEl.classList.add('hidden');
+
+            const name           = document.getElementById('faculty-name').value.trim();
+            const email          = document.getElementById('faculty-email').value.trim();
+            const position      = document.getElementById('faculty-position').value.trim();
+            const department    = document.getElementById('faculty-department').value.trim();
+            const specialization = document.getElementById('faculty-specialization').value.trim();
+            const status        = document.getElementById('faculty-status').value;
+            const file          = document.getElementById('faculty-file').files[0];
+
+            if (!name) throw new Error('Name is required');
+
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('position', position);
+            formData.append('department', department);
+            formData.append('specialization', specialization);
+            formData.append('status', status);
+            if (file) formData.append('image', file);
+
+            let data;
+            try {
+                const res = await fetch('../api/faculty/store.php', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    body: formData,
+                });
+                data = await res.json();
+            } catch (err) {
+                throw new Error('Network error — check your connection');
+            }
+
+            if (!data.success) throw new Error(data.error || 'Failed to add faculty');
+
             toast.show('Faculty member added', 'success');
             await refresh();
+            modal.close();
         },
     });
+
+    setTimeout(() => {
+        const fileInput = document.getElementById('faculty-file');
+        if (!fileInput) return;
+        fileInput.addEventListener('change', () => {
+            const preview = document.getElementById('faculty-preview');
+            const previewImg = document.getElementById('faculty-preview-img');
+            const file = fileInput.files[0];
+            if (!file || !preview || !previewImg) {
+                if (preview) preview.classList.add('hidden');
+                return;
+            }
+            previewImg.src = URL.createObjectURL(file);
+            previewImg.onload = () => preview.classList.remove('hidden');
+            previewImg.onerror = () => preview.classList.add('hidden');
+        });
+    }, 0);
 }
 
 function openEditModal(item) {
-    modal.openForm({
+    const html = `
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Name <span class="text-red-500">*</span></label>
+                <input type="text" id="faculty-name" value="${escapeHtml(item.name || '')}" required
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Email</label>
+                <input type="email" id="faculty-email" value="${escapeHtml(item.email || '')}"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Position</label>
+                <input type="text" id="faculty-position" value="${escapeHtml(item.position || '')}"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Department</label>
+                <input type="text" id="faculty-department" value="${escapeHtml(item.department || '')}"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Specialization</label>
+                <input type="text" id="faculty-specialization" value="${escapeHtml(item.specialization || '')}"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Current Photo</label>
+                <div class="w-20 h-20 overflow-hidden rounded-full border border-stone-200 bg-stone-50">
+                    ${item.image_url
+                        ? `<img src="${escapeHtml(item.image_url)}" class="w-full h-full object-cover"
+                            onerror="this.parentElement.innerHTML='<div class=\\'flex items-center justify-center w-full h-full bg-stone-200 text-stone-400 text-xs font-medium\\'>${escapeHtml(item.name.charAt(0))}</div>'">`
+                        : `<div class="flex items-center justify-center w-full h-full bg-stone-200 text-stone-400 text-xs font-medium">${escapeHtml(item.name.charAt(0))}</div>`}
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Replace Photo</label>
+                <input type="file" id="faculty-file" accept="image/jpeg,image/png,image/gif,image/webp"
+                    class="w-full text-sm text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                <p class="text-xs text-stone-400 mt-1">Leave empty to keep current photo.</p>
+                <div id="faculty-preview" class="mt-2 hidden">
+                    <img id="faculty-preview-img" class="w-20 h-20 object-cover rounded-full border border-stone-200" alt="Preview">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-stone-700 mb-1">Status</label>
+                <select id="faculty-status"
+                    class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    <option value="active" ${item.status === 'active' ? 'selected' : ''}>Active</option>
+                    <option value="inactive" ${item.status === 'inactive' ? 'selected' : ''}>Inactive</option>
+                </select>
+            </div>
+            <p id="faculty-error" class="text-red-600 text-sm hidden"></p>
+        </div>`;
+
+    modal.open({
         title: 'Edit Faculty Member',
-        fields: [
-            { name: 'name',           label: 'Name',           type: 'text',   required: true,  value: item.name },
-            { name: 'email',          label: 'Email',          type: 'text',   required: false, value: item.email || '' },
-            { name: 'position',       label: 'Position',       type: 'text',   required: false, value: item.position || '' },
-            { name: 'department',     label: 'Department',     type: 'text',   required: false, value: item.department || '' },
-            { name: 'specialization', label: 'Specialization', type: 'text',   required: false, value: item.specialization || '' },
-            { name: 'image_url',      label: 'Photo URL',      type: 'text',   required: false, value: item.image_url || '' },
-            { name: 'status',         label: 'Status',         type: 'select', required: false, options: [
-                { value: 'active',   label: 'Active' },
-                { value: 'inactive', label: 'Inactive' },
-            ], value: item.status || 'active' },
-        ],
-        submitLabel: 'Save Changes',
-        onSubmit: async (data) => {
-            const res = await api.post('faculty/update.php', { id: item.id, ...data });
-            if (!res.success) throw new Error(res.error || 'Failed to update faculty');
-            modal.close();
+        body: html,
+        confirmLabel: 'Save Changes',
+        onConfirm: async () => {
+            const errEl = document.getElementById('faculty-error');
+            if (errEl) errEl.classList.add('hidden');
+
+            const name           = document.getElementById('faculty-name').value.trim();
+            const email          = document.getElementById('faculty-email').value.trim();
+            const position      = document.getElementById('faculty-position').value.trim();
+            const department    = document.getElementById('faculty-department').value.trim();
+            const specialization = document.getElementById('faculty-specialization').value.trim();
+            const status        = document.getElementById('faculty-status').value;
+            const file          = document.getElementById('faculty-file').files[0];
+
+            if (!name) throw new Error('Name is required');
+
+            const formData = new FormData();
+            formData.append('id', item.id);
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('position', position);
+            formData.append('department', department);
+            formData.append('specialization', specialization);
+            formData.append('status', status);
+            if (file) formData.append('image', file);
+
+            let data;
+            try {
+                const res = await fetch('../api/faculty/update.php', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    body: formData,
+                });
+                data = await res.json();
+            } catch (err) {
+                throw new Error('Network error — check your connection');
+            }
+
+            if (!data.success) throw new Error(data.error || 'Failed to update faculty');
+
             toast.show('Faculty member updated', 'success');
             await refresh();
+            modal.close();
         },
     });
+
+    setTimeout(() => {
+        const fileInput = document.getElementById('faculty-file');
+        if (!fileInput) return;
+        fileInput.addEventListener('change', () => {
+            const preview = document.getElementById('faculty-preview');
+            const previewImg = document.getElementById('faculty-preview-img');
+            const file = fileInput.files[0];
+            if (!file || !preview || !previewImg) {
+                if (preview) preview.classList.add('hidden');
+                return;
+            }
+            previewImg.src = URL.createObjectURL(file);
+            previewImg.onload = () => preview.classList.remove('hidden');
+            previewImg.onerror = () => preview.classList.add('hidden');
+        });
+    }, 0);
 }
 
 function openDeleteModal(item) {

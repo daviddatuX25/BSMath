@@ -72,7 +72,7 @@ if ($hasFile) {
     if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
     if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
-        $imageUrl = 'uploads/gallery/' . $filename;
+        $imageUrl = '/uploads/gallery/' . $filename;
     }
 }
 

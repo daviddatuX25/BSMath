@@ -167,3 +167,31 @@
     display: none;
   }
 }
+
+/* ── Dashboard: stat card links — no browser underline ───────────────── */
+
+#main-content a.no-underline {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ── Dashboard: activities timeline border ───────────────────────────── */
+
+#main-content .border-l-2 {
+  border-left-width: 2px;
+}
+
+/* ── Dashboard: skeleton pulse (overrides) ───────────────────────────── */
+
+.animate-pulse .rounded-2xl {
+  border-radius: 1rem;
+}
+
+/* ── Sidebar role badge colors ───────────────────────────────────────── */
+/* dean */
+#sidebar-role-badge.bg-blue-800    { background-color: #1e40af; }
+/* program_head */
+#sidebar-role-badge.bg-purple-800  { background-color: #6b21a8; }
+/* admin (default) */
+#sidebar-role-badge.bg-emerald-800 { background-color: #065f46; }
+

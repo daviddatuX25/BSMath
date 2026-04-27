@@ -74,7 +74,7 @@ if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
     exit;
 }
 
-$imageUrl = 'uploads/gallery/' . $filename;
+$imageUrl = '/uploads/gallery/' . $filename;
 
 // ── Insert into DB ───────────────────────────────────────────────────
 $stmt = mysqli_prepare(
